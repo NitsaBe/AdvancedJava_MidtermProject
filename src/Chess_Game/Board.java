@@ -20,6 +20,12 @@ public class Board {
     public Figurine getSquare(int positionX , int positionY ){
         return this.getBoard()[positionX][positionY];
     }
+    public void setSquare(int positionX , int positionY , Figurine figurine){
+        this.getBoard()[positionX][positionY]=figurine;
+    }
+    public void clearSquare(int positionX , int positionY){
+        this.getBoard()[positionX][positionY]=null;
+    }
 
     public Figurine getSquare(String positionX , String positionY ){
         int posX=0;
@@ -76,5 +82,7 @@ public class Board {
 
 
     }
+
+
 
 }

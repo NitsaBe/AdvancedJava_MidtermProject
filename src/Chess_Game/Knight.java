@@ -7,7 +7,7 @@ public class Knight extends Figurine {
 
 
     @Override
-    public boolean moveCorrectWhite(int positionFirst, int PositionSecond) {
+    public boolean moveCorrectWhite(int positionFirst, int PositionSecond, Board board) {
         return false;
     }
 }
