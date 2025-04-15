@@ -7,11 +7,17 @@ public class Rook extends Figurine {
 
 
     @Override
-    public boolean moveCorrectWhite(int positionFirst, int PositionSecond, Board board) {
+    public boolean isLegalCapture(int positionFirst, int positionSecond, Board board) {
         return false;
     }
 
+    @Override
+    public boolean isLegalMove(int positionFirst, int positionSecond, Board board) {
+        return false;
+    }
 
-
-
+    @Override
+    public boolean isLegalCapture(int previousY, int positionFirst, int positionSecond, Board board) {
+        return false;
+    }
 }

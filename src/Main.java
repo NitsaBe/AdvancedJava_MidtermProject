@@ -1,3 +1,4 @@
+import Chess_Game.Bishop;
 import Chess_Game.Board;
 import Chess_Game.Pawn;
 import Chess_Game.StringReader;
@@ -21,20 +22,26 @@ public class Main {
         for (int i=0 ; i<8 ; i++){
             System.out.println(b.getBoard()[i][i]);
         }
+        Pawn pawn=      new Pawn("w");
+        Bishop bishop=new Bishop("w");
+        pawn.isLegalMove(4 , 6 ,b);
+        pawn.isLegalMove(4 , 3,b);
 
-        Pawn w=      new Pawn("w");
-        Pawn s=      new Pawn("b");
-        System.out.println(w.isLegalMove(4,1,b));
+        bishop.isLegalMove(2,7,b);
 
-        System.out.println( w.isLegalMove(3,1,b));
-        System.out.println(     w.isLegalMove(2,1,b));
-        System.out.println(  w.isLegalMove(1,1,b));
 
-        System.out.println(    w.isLegalCapture(1,0,1,b));
-        System.out.println(    w.isLegalCapture(1,1,1,b));
-        System.out.println(   w.isLegalCapture(1,1,3,b));
-        System.out.println(w.isLegalCapture(1,1,0,b));
-        System.out.println(s.isLegalMove(3,0,b));
+//        Pawn s=      new Pawn("b");
+//        System.out.println(w.isLegalMove(4,1,b));
+//
+//        System.out.println( w.isLegalMove(3,1,b));
+//        System.out.println(     w.isLegalMove(2,1,b));
+//        System.out.println(  w.isLegalMove(1,1,b));
+//
+//        System.out.println(    w.isLegalCapture(1,0,1,b));
+//        System.out.println(    w.isLegalCapture(1,1,1,b));
+//        System.out.println(   w.isLegalCapture(1,1,3,b));
+//        System.out.println(w.isLegalCapture(1,1,0,b));
+//        System.out.println(s.isLegalMove(3,0,b));
 
 
 

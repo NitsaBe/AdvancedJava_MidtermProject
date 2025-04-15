@@ -1,7 +1,5 @@
 package Chess_Game;
 
-import java.util.List;
-
 public class Pawn extends Figurine {
 
     //        [ [0][0], [0][1], [0][2], [0][3], [0][4], [0][5], [0][6], [0][7] ], // Row 0   blacks   [  [8][a]  ,[8][b] ...
@@ -18,7 +16,7 @@ public class Pawn extends Figurine {
     }
 
 
-
+    @Override
     public boolean isLegalMove(int positionFirst, int positionSecond, Board board) {
 
         String color=this.getColor();
@@ -58,9 +56,13 @@ public class Pawn extends Figurine {
         return false;
     }
 
+    @Override
+    public boolean isLegalCapture(int positionFirst, int positionSecond, Board board) {
+        return false;
+    }
 
-
-    public boolean isLegalCapture(int previousY , int positionFirst ,int positionSecond ,Board board){
+    @Override
+    public boolean isLegalCapture(int previousY , int positionFirst , int positionSecond , Board board){
 
         if (board.getSquare(positionFirst , positionSecond) == null ){
             return false;
@@ -107,8 +109,5 @@ public class Pawn extends Figurine {
     }
 
 
-    @Override
-    public boolean moveCorrectWhite(int positionFirst, int PositionSecond, Board board) {
-        return false;
-    }
+
 }
