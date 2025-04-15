@@ -84,9 +84,7 @@ public class Pawn extends Figurine {
 
         Figurine figurine= board.getSquare(positionFirstPrev, previousY);
         if (isValidPawn(figurine,color)){
-            board.clearSquare(positionFirstPrev , previousY);
-            board.clearSquare(positionFirst,positionSecond);
-            board.setSquare(positionFirst,positionSecond,figurine);
+            move(board,positionFirstPrev,previousY,positionFirst,positionSecond);
             return true;
         }
         return false;
