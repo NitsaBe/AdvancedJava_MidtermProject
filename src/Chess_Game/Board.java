@@ -49,8 +49,8 @@ public class Board {
 
         board= new Figurine[8][8];
         for (int x = 0; x < 8; x++) {
-            board[1][x]=new Pawn("w");
-            board[6][x]=new Pawn("b");
+            board[1][x]=new Pawn("b");
+            board[6][x]=new Pawn("w");
         }
         board[7][3]= new Queen("w");
         board[0][3]= new Queen("b");

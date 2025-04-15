@@ -48,7 +48,7 @@ public class StringReader {
         return games;
     }
 
-    private static  List<List<String>> parseGame(String gameText) {
+    private static  List<List<String>> parseSingleGame(String gameText) {
         List<List<String>> gameData = new ArrayList<>();
 
         List<String> metadata = new ArrayList<>();
@@ -71,6 +71,10 @@ public class StringReader {
 
         return gameData;
     }
+
+
+
+
     public static List<List<List <String>>> parser(String full_game) throws IOException {
 
         return null;
