@@ -22,8 +22,19 @@ public class Main {
             System.out.println(b.getBoard()[i][i]);
         }
 
-          Pawn w=      new Pawn("w");
+        Pawn w=      new Pawn("w");
         Pawn s=      new Pawn("b");
+        System.out.println(w.isLegalMove(4,1,b));
+
+        System.out.println( w.isLegalMove(3,1,b));
+        System.out.println(     w.isLegalMove(2,1,b));
+        System.out.println(  w.isLegalMove(1,1,b));
+
+        System.out.println(    w.isLegalCapture(1,0,1,b));
+        System.out.println(    w.isLegalCapture(1,1,1,b));
+        System.out.println(   w.isLegalCapture(1,1,3,b));
+        System.out.println(w.isLegalCapture(1,1,0,b));
+        System.out.println(s.isLegalMove(3,0,b));
 
 
 

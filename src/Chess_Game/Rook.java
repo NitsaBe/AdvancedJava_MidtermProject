@@ -10,4 +10,8 @@ public class Rook extends Figurine {
     public boolean moveCorrectWhite(int positionFirst, int PositionSecond, Board board) {
         return false;
     }
+
+
+
+
 }

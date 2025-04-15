@@ -19,7 +19,7 @@ public class Pawn extends Figurine {
 
 
 
-    public boolean existsAtPreviousPos(int positionFirst, int positionSecond, Board board) {
+    public boolean isLegalMove(int positionFirst, int positionSecond, Board board) {
 
         String color=this.getColor();
 
@@ -57,6 +57,42 @@ public class Pawn extends Figurine {
         }
         return false;
     }
+
+
+
+    public boolean isLegalCapture(int previousY , int positionFirst ,int positionSecond ,Board board){
+
+        if (board.getSquare(positionFirst , positionSecond) == null ){
+            return false;
+        }
+        String color= this.color;
+
+        if (Math.abs(positionSecond-previousY)!=1){
+            return false;
+        }
+
+        int positionFirstPrev=0;
+
+        if (color.equals("w")){
+            positionFirstPrev =positionFirst+1;
+        } else if (color.equals("b")) {
+            positionFirstPrev =positionFirst-1;
+        } else {
+            System.out.println("Invalid color");
+            return false;
+        }
+
+        Figurine figurine= board.getSquare(positionFirstPrev, previousY);
+        if (isValidPawn(figurine,color)){
+            board.clearSquare(positionFirstPrev , previousY);
+            board.clearSquare(positionFirst,positionSecond);
+            board.setSquare(positionFirst,positionSecond,figurine);
+            return true;
+        }
+        return false;
+
+    }
+
 
     private boolean isValidPawn(Figurine fig, String color) {
         return fig instanceof Pawn && fig.getColor().equals(color);
