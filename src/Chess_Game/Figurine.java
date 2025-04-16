@@ -20,10 +20,9 @@ public abstract class Figurine {
         board.setSquare(toFirst, toSecond, this);
     }
 
-    public abstract boolean isLegalCapture(int positionFirst, int positionSecond, Board board) ;
-    public abstract boolean isLegalMove( int positionFirst ,int positionSecond ,Board board);
+    public abstract boolean isLegalMove(int positionFirst, int positionSecond, Board board);
+    public abstract boolean isLegalMove(int startingX,int startingY, int positionFirst, int positionSecond,Board board);
 
-    public abstract boolean isLegalCapture(int previousY, int positionFirst, int positionSecond, Board board);
-
-//    public abstract boolean isLegalCapture(int previousY, int positionFirst, int positionSecond, Board board);
+    public abstract boolean isLegalCapture(int positionFirst, int positionSecond, Board board);
+    public abstract boolean isLegalCapture(int startingX, int startingY,int positionFirst, int positionSecond, Board board);
 }
