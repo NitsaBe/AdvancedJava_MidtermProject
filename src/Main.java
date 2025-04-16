@@ -27,7 +27,7 @@ public class Main {
         pawn.isLegalMove(4 , 6 ,b);
         pawn.isLegalMove(4 , 3,b);
 
-        bishop.isLegalMove(2,7,b);
+        System.out.println(bishop.isLegalMove(7,-1,2,7,b));;
 
 
 //        Pawn s=      new Pawn("b");

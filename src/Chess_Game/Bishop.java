@@ -14,8 +14,6 @@ public class Bishop extends Figurine {
     public Bishop(String color) {
         this.color=color;
     }
-
-
     @Override
     public boolean isLegalMove(int positionFirst, int positionSecond, Board board) {
        if(board.getSquare(positionFirst,positionSecond)!=null){
@@ -26,6 +24,8 @@ public class Bishop extends Figurine {
         isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,2 ,positionFirst,positionSecond)||
         isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,3 ,positionFirst,positionSecond);
     }
+
+
 
     private boolean isLegalMoveHelper(int positionFirst, int positionSecond, Board board , String color ,
                               int fourWays, int checkPosX, int checkPosY ){
@@ -44,7 +44,7 @@ public class Bishop extends Figurine {
            return false;
        }
        if (fourWays==0) {
-         return   isLegalMoveHelper(positionFirst, positionSecond, board, color, fourWays, checkPosX - 1, checkPosY - 1);
+         return   isLegalMoveHelper(positionFirst, positionSecond, board, color, fourWays, checkPosX - 1, checkPosY + 1);
        }
        if (fourWays==1){
          return   isLegalMoveHelper(positionFirst, positionSecond, board, color, fourWays, checkPosX +1, checkPosY +1);
@@ -53,9 +53,40 @@ public class Bishop extends Figurine {
            return isLegalMoveHelper(positionFirst, positionSecond, board, color, fourWays, checkPosX +1, checkPosY -1);
         }
         if (fourWays==3){
-         return    isLegalMoveHelper(positionFirst, positionSecond, board, color, fourWays, checkPosX -1, checkPosY +1);
+         return    isLegalMoveHelper(positionFirst, positionSecond, board, color, fourWays, checkPosX -1, checkPosY -1);
         }
-return false;
+        return false;
+    }
+
+
+    public boolean isLegalMove(int startingX,int startingY, int positionFirst, int positionSecond,Board board){
+        if (startingX!=-1 && startingY!=-1){
+            isLegalMove(positionFirst,positionSecond,board);
+        }
+        else if (startingY==-1){
+            if (startingX>positionFirst){
+                return isLegalMoveHelper(positionFirst,positionSecond,board,this.color,1,positionFirst,positionSecond)
+                        ||isLegalMoveHelper(positionFirst,positionSecond,board,this.color,2,positionFirst,positionSecond);
+            }
+            else if (startingX<positionFirst){
+                return isLegalMoveHelper(positionFirst,positionSecond,board,this.color,0,positionFirst,positionSecond)
+                        ||isLegalMoveHelper(positionFirst,positionSecond,board,this.color,3,positionFirst,positionSecond);
+            }
+            return false;
+        } else {
+
+            if (startingY>positionSecond){
+                return isLegalMoveHelper(positionFirst,positionSecond,board,this.color,0,positionFirst,positionSecond)
+                        ||isLegalMoveHelper(positionFirst,positionSecond,board,this.color,1,positionFirst,positionSecond);
+            }
+            else if (startingY<positionSecond){
+                return isLegalMoveHelper(positionFirst,positionSecond,board,this.color,2,positionFirst,positionSecond)
+                        ||isLegalMoveHelper(positionFirst,positionSecond,board,this.color,3,positionFirst,positionSecond);
+            }
+            return false;
+        }
+        return false;
+
     }
 
     @Override
@@ -73,10 +104,23 @@ return false;
 
     }
 
+    public boolean isLegalCapture(int startingX, int startingY,int positionFirst, int positionSecond, Board board) {
+        if (startingX==-1&&startingY==-1){
+            return isLegalCapture(positionFirst,positionSecond,board);
+        }
+        if (board.getSquare(positionFirst , positionSecond) == null ||
+                board.getSquare(positionFirst,positionSecond).color.equals(color)){
+            return false;
+        }
+        board.setSquare(positionFirst,positionSecond,null);
+        return isLegalMove(startingX,startingY,positionFirst,positionSecond,board);
+
+    }
+
 
 
     @Override
     public boolean isLegalCapture(int previousY, int positionFirst, int positionSecond, Board board) {
-        return false;
+        return false;  //TODO
     }
 }

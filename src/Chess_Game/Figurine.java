@@ -24,4 +24,6 @@ public abstract class Figurine {
     public abstract boolean isLegalMove( int positionFirst ,int positionSecond ,Board board);
 
     public abstract boolean isLegalCapture(int previousY, int positionFirst, int positionSecond, Board board);
+
+//    public abstract boolean isLegalCapture(int previousY, int positionFirst, int positionSecond, Board board);
 }
