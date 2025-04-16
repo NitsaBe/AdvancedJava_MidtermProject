@@ -18,7 +18,10 @@ public class Bishop extends Figurine {
 
     @Override
     public boolean isLegalMove(int positionFirst, int positionSecond, Board board) {
-       return isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,0 ,positionFirst,positionSecond)||
+       if(board.getSquare(positionFirst,positionSecond)!=null){
+           return false;
+       }
+       else return isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,0 ,positionFirst,positionSecond)||
         isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,1 ,positionFirst,positionSecond)||
         isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,2 ,positionFirst,positionSecond)||
         isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,3 ,positionFirst,positionSecond);
@@ -57,7 +60,17 @@ return false;
 
     @Override
     public boolean isLegalCapture(int positionFirst, int positionSecond, Board board) {
-        return false;
+
+        if (board.getSquare(positionFirst , positionSecond) == null ||
+                board.getSquare(positionFirst,positionSecond).color.equals(color)){
+            return false;
+        }
+
+        else {
+            board.setSquare(positionFirst,positionSecond,null);
+            return isLegalMove(positionFirst, positionSecond, board);
+        }
+
     }
 
 
