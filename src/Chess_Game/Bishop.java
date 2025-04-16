@@ -24,7 +24,7 @@ public class Bishop extends Figurine {
         isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,3 ,positionFirst,positionSecond);
     }
 
-    public boolean isLegalMoveHelper(int positionFirst, int positionSecond, Board board , String color ,
+    private boolean isLegalMoveHelper(int positionFirst, int positionSecond, Board board , String color ,
                               int fourWays, int checkPosX, int checkPosY ){
         if(checkPosX>7 ||checkPosX<0 ||checkPosY>7 ||checkPosY<0){
             return false;

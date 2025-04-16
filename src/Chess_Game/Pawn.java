@@ -64,10 +64,13 @@ public class Pawn extends Figurine {
     @Override
     public boolean isLegalCapture(int previousY , int positionFirst , int positionSecond , Board board){
 
-        if (board.getSquare(positionFirst , positionSecond) == null ){
+        String color= this.color;
+
+        if (board.getSquare(positionFirst , positionSecond) == null ||
+                board.getSquare(positionFirst,positionSecond).color.equals(color)){
             return false;
         }
-        String color= this.color;
+
 
         if (Math.abs(positionSecond-previousY)!=1){
             return false;
@@ -83,8 +86,8 @@ public class Pawn extends Figurine {
             System.out.println("Invalid color");
             return false;
         }
-
         Figurine figurine= board.getSquare(positionFirstPrev, previousY);
+
         if (isValidPawn(figurine,color)){
             move(board,positionFirstPrev,previousY,positionFirst,positionSecond);
             return true;
