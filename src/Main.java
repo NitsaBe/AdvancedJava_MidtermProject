@@ -20,19 +20,32 @@ public class Main {
             System.out.println(b.getBoard()[i][i]);
         }
         Pawn pawn=      new Pawn("w");
+        Pawn pp=      new Pawn("b");
         Bishop bishop=new Bishop("w");
         Knight knight=new Knight("b");
         Knight wn=new Knight("w");
 
-        pawn.isLegalMove(4 , 6 ,b);
-        pawn.isLegalMove(4 , 3,b);
-        pawn.isLegalMove(4 , 3,b);
+//        pawn.isLegalMove(4 , 6 ,b);
+//        pawn.isLegalMove(4 , 3,b);
+//        pawn.isLegalMove(4 , 3,b);
+//
+//        System.out.println(bishop.isLegalMove(7,-1,2,7,b));;
+//        System.out.println(wn.isLegalMove(5,2,b));;
 
-        System.out.println(bishop.isLegalMove(7,-1,2,7,b));;
-        System.out.println(knight.isLegalMove(2,2,b));;
-        System.out.println(wn.isLegalMove(2,2,b));;
-        System.out.println(wn.isLegalMove(5,2,b));;
-        System.out.println(wn.isLegalMove(5,2,b));;
+        Queen q=new Queen("b");
+        pawn.isLegalMove(4,7,b);
+//        pawn.isLegalMove(3,7,b);
+        pawn.isLegalMove(4,0,b);
+        pawn.isLegalMove(3,0,b);
+
+
+        pp.isLegalMove(3,3,b);
+        pp.isLegalMove(3,4,b);
+        System.out.println((  q.isLegalCapture(4,7,b)));
+        System.out.println( q.isLegalCapture(4,0,b));
+        System.out.println( q.isLegalCapture(2,1,b));
+        System.out.println( q.isLegalCapture(3,0,b));
+
 
 
 
