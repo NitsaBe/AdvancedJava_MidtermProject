@@ -19,7 +19,7 @@ public class Bishop extends Figurine {
 
 
     private boolean isLegalMoveHelper(int positionFirst, int positionSecond, Board board , String color ,
-                              int direction, int checkPosX, int checkPosY ){
+                              int direction, int checkPosX, int checkPosY,int lastCheckX, int lastCheckY){
         if(checkPosX>7 ||checkPosX<0 ||checkPosY>7 ||checkPosY<0){
             return false;
         }
@@ -27,6 +27,10 @@ public class Bishop extends Figurine {
        if (!board.isSquareEmpty(checkPosX,checkPosY)){
            if (figure instanceof Bishop){
                if (figure.color.equals(color) ){
+                   if((lastCheckX==-1&&lastCheckY==-1)||
+                           (lastCheckX==checkPosX && lastCheckY==-1)||
+                           (lastCheckX==-1&&lastCheckY==checkPosY)) {return false;}
+
                    move(board,checkPosX,checkPosY, positionFirst,positionSecond );
                    return true ;
                }
@@ -35,16 +39,16 @@ public class Bishop extends Figurine {
            return false;
        }
        if (direction==0) {
-         return   isLegalMoveHelper(positionFirst, positionSecond, board, color, direction, checkPosX - 1, checkPosY + 1);
+         return   isLegalMoveHelper(positionFirst, positionSecond, board, color, direction, checkPosX - 1, checkPosY + 1,lastCheckX,lastCheckY);
        }
        if (direction==1){
-         return   isLegalMoveHelper(positionFirst, positionSecond, board, color, direction, checkPosX +1, checkPosY +1);
+         return   isLegalMoveHelper(positionFirst, positionSecond, board, color, direction, checkPosX +1, checkPosY +1,lastCheckX,lastCheckY);
        }
         if (direction==2){
-           return isLegalMoveHelper(positionFirst, positionSecond, board, color, direction, checkPosX +1, checkPosY -1);
+           return isLegalMoveHelper(positionFirst, positionSecond, board, color, direction, checkPosX +1, checkPosY -1,lastCheckX,lastCheckY);
         }
         if (direction==3){
-         return    isLegalMoveHelper(positionFirst, positionSecond, board, color, direction, checkPosX -1, checkPosY -1);
+         return    isLegalMoveHelper(positionFirst, positionSecond, board, color, direction, checkPosX -1, checkPosY -1,lastCheckX,lastCheckY);
         }
         return false;
     }
@@ -52,10 +56,10 @@ public class Bishop extends Figurine {
     @Override
     public boolean isLegalMove(int positionFirst, int positionSecond, Board board) {
         if(board.isSquareEmpty(positionFirst,positionSecond)){
-              return isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,0 ,positionFirst,positionSecond)||
-                    isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,1 ,positionFirst,positionSecond)||
-                    isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,2 ,positionFirst,positionSecond)||
-                    isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,3 ,positionFirst,positionSecond);
+              return isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,0 ,positionFirst,positionSecond,-1,-1)||
+                    isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,1 ,positionFirst,positionSecond,-1,-1)||
+                    isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,2 ,positionFirst,positionSecond,-1,-1)||
+                    isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,3 ,positionFirst,positionSecond,-1,-1);
         }
         else return false;
 
@@ -67,23 +71,23 @@ public class Bishop extends Figurine {
         }
         else if (startingY==-1){
             if (startingX>positionFirst){
-                return isLegalMoveHelper(positionFirst,positionSecond,board,this.color,1,positionFirst,positionSecond)
-                        ||isLegalMoveHelper(positionFirst,positionSecond,board,this.color,2,positionFirst,positionSecond);
+                return isLegalMoveHelper(positionFirst,positionSecond,board,this.color,1,positionFirst,positionSecond,startingX,startingY)
+                        ||isLegalMoveHelper(positionFirst,positionSecond,board,this.color,2,positionFirst,positionSecond,startingX,startingY);
             }
             else if (startingX<positionFirst){
-                return isLegalMoveHelper(positionFirst,positionSecond,board,this.color,0,positionFirst,positionSecond)
-                        ||isLegalMoveHelper(positionFirst,positionSecond,board,this.color,3,positionFirst,positionSecond);
+                return isLegalMoveHelper(positionFirst,positionSecond,board,this.color,0,positionFirst,positionSecond,startingX,startingY)
+                        ||isLegalMoveHelper(positionFirst,positionSecond,board,this.color,3,positionFirst,positionSecond,startingX,startingY);
             }
             return false;
         } else {
 
             if (startingY>positionSecond){
-                return isLegalMoveHelper(positionFirst,positionSecond,board,this.color,0,positionFirst,positionSecond)
-                        ||isLegalMoveHelper(positionFirst,positionSecond,board,this.color,1,positionFirst,positionSecond);
+                return isLegalMoveHelper(positionFirst,positionSecond,board,this.color,0,positionFirst,positionSecond,startingX,startingY)
+                        ||isLegalMoveHelper(positionFirst,positionSecond,board,this.color,1,positionFirst,positionSecond,startingX,startingY);
             }
             else if (startingY<positionSecond){
-                return isLegalMoveHelper(positionFirst,positionSecond,board,this.color,2,positionFirst,positionSecond)
-                        ||isLegalMoveHelper(positionFirst,positionSecond,board,this.color,3,positionFirst,positionSecond);
+                return isLegalMoveHelper(positionFirst,positionSecond,board,this.color,2,positionFirst,positionSecond,startingX,startingY)
+                        ||isLegalMoveHelper(positionFirst,positionSecond,board,this.color,3,positionFirst,positionSecond,startingX,startingY);
             }
             return false;
         }
