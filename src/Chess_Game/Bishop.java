@@ -24,7 +24,7 @@ public class Bishop extends Figurine {
             return false;
         }
        Figurine figure=  board.getSquare(checkPosX,checkPosY);
-       if (figure!=null){
+       if (!board.isSquareEmpty(checkPosX,checkPosY)){
            if (figure instanceof Bishop){
                if (figure.color.equals(color) ){
                    move(board,checkPosX,checkPosY, positionFirst,positionSecond );
@@ -51,13 +51,14 @@ public class Bishop extends Figurine {
 
     @Override
     public boolean isLegalMove(int positionFirst, int positionSecond, Board board) {
-        if(board.getSquare(positionFirst,positionSecond)!=null){
-            return false;
+        if(board.isSquareEmpty(positionFirst,positionSecond)){
+              return isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,0 ,positionFirst,positionSecond)||
+                    isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,1 ,positionFirst,positionSecond)||
+                    isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,2 ,positionFirst,positionSecond)||
+                    isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,3 ,positionFirst,positionSecond);
         }
-        else return isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,0 ,positionFirst,positionSecond)||
-                isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,1 ,positionFirst,positionSecond)||
-                isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,2 ,positionFirst,positionSecond)||
-                isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,3 ,positionFirst,positionSecond);
+        else return false;
+
     }
     @Override
     public boolean isLegalMove(int startingX,int startingY, int positionFirst, int positionSecond,Board board){
@@ -93,7 +94,7 @@ public class Bishop extends Figurine {
     @Override
     public boolean isLegalCapture(int positionFirst, int positionSecond, Board board) {
 
-        if (board.getSquare(positionFirst , positionSecond) == null ||
+        if (board.isSquareEmpty(positionFirst,positionSecond)||
                 board.getSquare(positionFirst,positionSecond).color.equals(color)){
             return false;
         }
@@ -109,7 +110,7 @@ public class Bishop extends Figurine {
         if (startingX==-1&&startingY==-1){
             return isLegalCapture(positionFirst,positionSecond,board);
         }
-        if (board.getSquare(positionFirst , positionSecond) == null ||
+        if (board.isSquareEmpty(positionFirst,positionSecond) ||
                 board.getSquare(positionFirst,positionSecond).color.equals(color)){
             return false;
         }

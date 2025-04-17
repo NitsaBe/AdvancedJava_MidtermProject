@@ -23,6 +23,9 @@ public class Board {
     public void setSquare(int positionX , int positionY , Figurine figurine){
         this.getBoard()[positionX][positionY]=figurine;
     }
+    public boolean isSquareEmpty(int positionX, int positionY){
+        return this.getSquare(positionX,positionY)==null;
+    }
     public void clearSquare(int positionX , int positionY){
         this.getBoard()[positionX][positionY]=null;
     }

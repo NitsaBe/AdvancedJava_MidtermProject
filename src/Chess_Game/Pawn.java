@@ -21,7 +21,7 @@ public class Pawn extends Figurine {
 
         String color=this.getColor();
 
-        if (board.getSquare(positionFirst, positionSecond) != null) {
+        if (!board.isSquareEmpty(positionFirst,positionSecond)) {
             return false;
         }
 
@@ -74,7 +74,7 @@ public class Pawn extends Figurine {
 
         String color= this.color;
 
-        if (board.getSquare(positionFirst , positionSecond) == null ||
+        if (board.isSquareEmpty(positionFirst,positionSecond) ||
                 board.getSquare(positionFirst,positionSecond).color.equals(color)){
             return false;
         }
