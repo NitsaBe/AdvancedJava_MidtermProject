@@ -61,37 +61,30 @@ public class Knight extends Figurine {
 
     @Override
     public boolean isLegalMove(int startingX, int startingY, int positionFirst, int positionSecond, Board board) {
-        if(startingX==-1 && startingY==-1){return false;}
-        if (startingY==-1){
-            if(startingX>positionFirst){
-                return isLegalMoveHelper(positionFirst,positionSecond,board,2)||
-                        isLegalMoveHelper(positionFirst,positionSecond,board,3)||
-                        isLegalMoveHelper(positionFirst,positionSecond,board,4)||
-                        isLegalMoveHelper(positionFirst,positionSecond,board,5);
-
-            }
-            else if (startingX<positionFirst){
-                return isLegalMoveHelper(positionFirst,positionSecond,board,0)||
-                        isLegalMoveHelper(positionFirst,positionSecond,board,1)||
-                        isLegalMoveHelper(positionFirst,positionSecond,board,6)||
-                        isLegalMoveHelper(positionFirst,positionSecond,board,7);
-            }
+        if (startingX == -1 && startingY == -1) {
             return false;
         }
-        else if (startingX==-1) {
-            if (startingY > positionSecond) {
-                return isLegalMoveHelper(positionFirst, positionSecond, board, 0) ||
-                        isLegalMoveHelper(positionFirst, positionSecond, board, 1) ||
-                        isLegalMoveHelper(positionFirst, positionSecond, board, 2) ||
-                        isLegalMoveHelper(positionFirst, positionSecond, board, 3);
 
-            } else if (startingY < positionSecond) {
-                return isLegalMoveHelper(positionFirst, positionSecond, board, 4) ||
-                        isLegalMoveHelper(positionFirst, positionSecond, board, 5) ||
-                        isLegalMoveHelper(positionFirst, positionSecond, board, 6) ||
-                        isLegalMoveHelper(positionFirst, positionSecond, board, 7);
-            }
+        int[] directionsToCheck;
+
+        if (startingY == -1) {
+            directionsToCheck = (startingX > positionFirst)
+                    ? new int[]{2, 3, 4, 5}
+                    : new int[]{0, 1, 6, 7};
+        }
+        else if (startingX == -1) {
+            directionsToCheck = (startingY > positionSecond)
+                    ? new int[]{0, 1, 2, 3}
+                    : new int[]{4, 5, 6, 7};
+        }
+        else {
             return false;
+        }
+
+        for (int direction : directionsToCheck) {
+            if (isLegalMoveHelper(positionFirst, positionSecond, board, direction)) {
+                return true;
+            }
         }
 
         return false;
