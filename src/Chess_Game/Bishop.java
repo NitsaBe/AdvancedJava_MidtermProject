@@ -19,7 +19,7 @@ public class Bishop extends Figurine {
 
 
     private boolean isLegalMoveHelper(int positionFirst, int positionSecond, Board board , String color ,
-                              int fourWays, int checkPosX, int checkPosY ){
+                              int direction, int checkPosX, int checkPosY ){
         if(checkPosX>7 ||checkPosX<0 ||checkPosY>7 ||checkPosY<0){
             return false;
         }
@@ -34,17 +34,17 @@ public class Bishop extends Figurine {
            }
            return false;
        }
-       if (fourWays==0) {
-         return   isLegalMoveHelper(positionFirst, positionSecond, board, color, fourWays, checkPosX - 1, checkPosY + 1);
+       if (direction==0) {
+         return   isLegalMoveHelper(positionFirst, positionSecond, board, color, direction, checkPosX - 1, checkPosY + 1);
        }
-       if (fourWays==1){
-         return   isLegalMoveHelper(positionFirst, positionSecond, board, color, fourWays, checkPosX +1, checkPosY +1);
+       if (direction==1){
+         return   isLegalMoveHelper(positionFirst, positionSecond, board, color, direction, checkPosX +1, checkPosY +1);
        }
-        if (fourWays==2){
-           return isLegalMoveHelper(positionFirst, positionSecond, board, color, fourWays, checkPosX +1, checkPosY -1);
+        if (direction==2){
+           return isLegalMoveHelper(positionFirst, positionSecond, board, color, direction, checkPosX +1, checkPosY -1);
         }
-        if (fourWays==3){
-         return    isLegalMoveHelper(positionFirst, positionSecond, board, color, fourWays, checkPosX -1, checkPosY -1);
+        if (direction==3){
+         return    isLegalMoveHelper(positionFirst, positionSecond, board, color, direction, checkPosX -1, checkPosY -1);
         }
         return false;
     }

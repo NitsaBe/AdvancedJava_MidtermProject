@@ -1,7 +1,4 @@
-import Chess_Game.Bishop;
-import Chess_Game.Board;
-import Chess_Game.Pawn;
-import Chess_Game.StringReader;
+import Chess_Game.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,10 +21,22 @@ public class Main {
         }
         Pawn pawn=      new Pawn("w");
         Bishop bishop=new Bishop("w");
+        Knight knight=new Knight("b");
+        Knight wn=new Knight("w");
+
         pawn.isLegalMove(4 , 6 ,b);
+        pawn.isLegalMove(4 , 3,b);
         pawn.isLegalMove(4 , 3,b);
 
         System.out.println(bishop.isLegalMove(7,-1,2,7,b));;
+        System.out.println(knight.isLegalMove(2,2,b));;
+        System.out.println(wn.isLegalMove(2,2,b));;
+        System.out.println(wn.isLegalMove(5,2,b));;
+        System.out.println(wn.isLegalMove(5,2,b));;
+
+
+
+
 
 
 //        Pawn s=      new Pawn("b");

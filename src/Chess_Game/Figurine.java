@@ -1,6 +1,7 @@
 package Chess_Game;
 
 public abstract class Figurine {
+
     String color;
 
     public String getColor() {
@@ -15,9 +16,10 @@ public abstract class Figurine {
         return color.equals("w") ? currentPos + 1 : currentPos - 1;
     }
 
-    public void move(Board board, int fromFirst, int fromSecond, int toFirst, int toSecond) {
+    public static void move(Board board, int fromFirst, int fromSecond, int toFirst, int toSecond) {
+        Figurine figurine=board.getSquare(fromFirst,fromSecond);
         board.clearSquare(fromFirst, fromSecond);
-        board.setSquare(toFirst, toSecond, this);
+        board.setSquare(toFirst, toSecond, figurine);
     }
 
     public abstract boolean isLegalMove(int positionFirst, int positionSecond, Board board);
