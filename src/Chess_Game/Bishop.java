@@ -14,16 +14,7 @@ public class Bishop extends Figurine {
     public Bishop(String color) {
         this.color=color;
     }
-    @Override
-    public boolean isLegalMove(int positionFirst, int positionSecond, Board board) {
-       if(board.getSquare(positionFirst,positionSecond)!=null){
-           return false;
-       }
-       else return isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,0 ,positionFirst,positionSecond)||
-        isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,1 ,positionFirst,positionSecond)||
-        isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,2 ,positionFirst,positionSecond)||
-        isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,3 ,positionFirst,positionSecond);
-    }
+
 
 
 
@@ -58,7 +49,16 @@ public class Bishop extends Figurine {
         return false;
     }
 
-
+    @Override
+    public boolean isLegalMove(int positionFirst, int positionSecond, Board board) {
+        if(board.getSquare(positionFirst,positionSecond)!=null){
+            return false;
+        }
+        else return isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,0 ,positionFirst,positionSecond)||
+                isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,1 ,positionFirst,positionSecond)||
+                isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,2 ,positionFirst,positionSecond)||
+                isLegalMoveHelper(positionFirst,positionSecond,board,this.color ,3 ,positionFirst,positionSecond);
+    }
     @Override
     public boolean isLegalMove(int startingX,int startingY, int positionFirst, int positionSecond,Board board){
         if (startingX!=-1 && startingY!=-1){
