@@ -95,20 +95,7 @@ public class Bishop extends Figurine {
 
     }
 
-    @Override
-    public boolean isLegalCapture(int positionFirst, int positionSecond, Board board) {
 
-        if (board.isSquareEmpty(positionFirst,positionSecond)||
-                board.getSquare(positionFirst,positionSecond).color.equals(color)){
-            return false;
-        }
-
-        else {
-            board.setSquare(positionFirst,positionSecond,null);
-            return isLegalMove(positionFirst, positionSecond, board);
-        }
-
-    }
     @Override
     public boolean isLegalCapture(int startingX, int startingY,int positionFirst, int positionSecond, Board board) {
         if (startingX==-1&&startingY==-1){

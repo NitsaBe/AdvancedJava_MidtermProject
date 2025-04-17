@@ -25,6 +25,19 @@ public abstract class Figurine {
     public abstract boolean isLegalMove(int positionFirst, int positionSecond, Board board);
     public abstract boolean isLegalMove(int startingX,int startingY, int positionFirst, int positionSecond,Board board);
 
-    public abstract boolean isLegalCapture(int positionFirst, int positionSecond, Board board);
+
+    public boolean isLegalCapture(int positionFirst, int positionSecond, Board board) {
+
+        if (board.isSquareEmpty(positionFirst,positionSecond)||
+                board.getSquare(positionFirst,positionSecond).color.equals(color)){
+            return false;
+        }
+
+        else {
+            board.setSquare(positionFirst,positionSecond,null);
+            return isLegalMove(positionFirst, positionSecond, board);
+        }
+
+    }
     public abstract boolean isLegalCapture(int startingX, int startingY,int positionFirst, int positionSecond, Board board);
 }
