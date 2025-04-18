@@ -74,7 +74,15 @@ public class GameValidator {
 
     ///todo what about pawn becoming queen
 
+/// ///////////needs actual implementation logical checker
+    public static String cleanNotation(String move) {
+        return move != null ? move.replaceAll("[+#]$", "") : null;
+    }
+    /// ////////////////////
+
     public static boolean isValidMove(String move, String color , Board board) {
+        move=cleanNotation(move);
+
 
         if (move == null || move.isEmpty()) return false;
         char[] movesInCharArray = move.toCharArray();

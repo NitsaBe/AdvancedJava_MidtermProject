@@ -43,6 +43,8 @@ public class GameRunner {
     }
 
 
+
+
     /**
      * Start validating chess games
      */
@@ -169,6 +171,8 @@ public class GameRunner {
                 ", Success: " + successCount.get() +
                 ", Errors: " + errorCount.get());
     }
+
+
 
 }
 

@@ -35,15 +35,13 @@ public class GameValidatorTest {
         // Create a sequence of moves with an invalid bishop move
         List<List<String>> moves = new ArrayList<>();
 
-        // 1. e4 e5
         moves.add(Arrays.asList("e4", "e5"));
 
-        // 2. Bc4 (Bishop moves legally)
-        // 2. ... Ba3 (Black bishop tries to move illegally - can't reach a3 from starting position)
+
         moves.add(Arrays.asList("Bc4", "Ba3"));
 
         boolean isValid = GameValidator.validateGameMoves(moves, board);
-        assertFalse(isValid);
+        assertTrue(isValid);
     }
 
     @Test

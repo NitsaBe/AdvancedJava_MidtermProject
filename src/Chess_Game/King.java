@@ -64,12 +64,18 @@ public class King  extends Figurine {
 
     @Override
     public boolean isLegalMove(int startingX, int startingY, int positionFirst, int positionSecond, Board board) {
+        if(startingX==-1&&startingY==-1){
+            return isLegalMove(positionFirst,positionSecond,board);
+        }
         return false;
     }
 
 
     @Override
     public boolean isLegalCapture(int startingX, int startingY, int positionFirst, int positionSecond, Board board) {
+        if(startingX==-1&&startingY==-1){
+            return isLegalCapture(positionFirst,positionSecond,board);
+        }
         return false;
     }
     /**

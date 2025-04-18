@@ -48,13 +48,13 @@ public class Rook extends Figurine {
         if (!board.isSquareEmpty(checkPosX, checkPosY)) {
             if (figure instanceof Rook) {
                 if (figure.color.equals(color)) {
-                    if ((lastCheckX == checkPosX && lastCheckY == -1) ||
+                    if ((lastCheckX==-1&&lastCheckY==-1)||(lastCheckX == checkPosX && lastCheckY == -1) ||
                             (lastCheckX == -1 && lastCheckY == checkPosY)) {
-                        return false;
+                        move(board, checkPosX, checkPosY, positionFirst, positionSecond);
+                        updateRookMovedStatus(checkPosX, checkPosY);
+                        return true;
                     }
-                    move(board, checkPosX, checkPosY, positionFirst, positionSecond);
-                    updateRookMovedStatus(checkPosX, checkPosY);
-                    return true;
+                    return false;
                 }
             }
             return false;
