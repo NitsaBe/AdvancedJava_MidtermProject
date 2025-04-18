@@ -63,7 +63,7 @@ public class Knight extends Figurine {
     @Override
     public boolean isLegalMove(int startingX, int startingY, int positionFirst, int positionSecond, Board board) {
         if (startingX == -1 && startingY == -1) {
-            return false;
+            return isLegalMove(positionFirst,positionSecond,board);
         }
 
         int[] directionsToCheck;

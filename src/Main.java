@@ -18,9 +18,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         Board b=new Board();
-        for (int i=0 ; i<8 ; i++){
-            System.out.println(b.getBoard()[i][i]);
-        }
+
 //        Pawn pawn=      new Pawn("w");
 //        Pawn pp=      new Pawn("b");
 //        Bishop bishop=new Bishop("w");
@@ -57,25 +55,28 @@ public class Main {
 //        System.out.println(w.isLegalCapture(1,1,0,b));
 //        System.out.println(s.isLegalMove(3,0,b));
 
-
-
-
-
-
         try {
             String pgnContent = StringReader.pgnFileToString("src/Tbilisi2015.pgn");
 
+            List<String> ayo=StringReader.separatedFullGamesIntoFullGamesList(pgnContent);
+            System.out.println(ayo.get(0));
+            List<List<List<String>>> s= StringReader.parseGameNotation(ayo.get(0));
 
+                System.out.println(GameValidator.validateGameMoves(s.get(1),b));
 
-            List<String> separatedGames = StringReader.separatedFullGamesIntoFullGamesList(pgnContent);
-//            for (int i = 0; i < separatedGames.size(); i++) {
+//            for (int i = 0; i < ayo.size(); i++) {
+//                Board board=new Board();
+//                List<List<List<String>>> s= StringReader.parseGameNotation(ayo.get(i));
+//
+//                System.out.println(GameValidator.validateGameMoves(s.get(1),board));
+//
 //            }
-//            List<List<String>> parsedgame1 =StringReader.parseSingleGameIntoMetaPlusGamePlusResultList(separatedGames.get(1));
-//            System.out.println(parsedgame1.get(0)+ "\n"+parsedgame1.get(1)+"\n"+parsedgame1.get(2));
-//            List<List<String>> list=StringReader.parseGameIntoMovesList(parsedgame1.get(1).get(0));
+
 //            System.out.println(list);
-            List<List<List<String>>> ls=StringReader.parseGameNotation(separatedGames.get(0));
-            System.out.println(ls.get(0)+ "\n"+ls.get(1)+"\n"+ls.get(2));
+
+
+
+//            System.out.println(ls.get(0)+ "\n"+ls.get(1)+"\n"+ls.get(2));
 
 
         } catch (IOException e) {

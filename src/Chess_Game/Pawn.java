@@ -70,7 +70,7 @@ public class Pawn extends Figurine {
     public boolean isLegalCapture(int startingX, int startingY, int positionFirst, int positionSecond, Board board) {
 
         if(startingX!=-1){return false;}
-        if(startingY!=-1){return isLegalCapture(positionFirst,positionSecond,board);}
+        if(startingY==-1){return isLegalCapture(positionFirst,positionSecond,board);}
 
         String color= this.color;
 
@@ -97,6 +97,7 @@ public class Pawn extends Figurine {
         Figurine figurine= board.getSquare(positionFirstPrev, startingY);
 
         if (isValidPawn(figurine,color)){
+            board.clearSquare(positionFirst,positionSecond);
             move(board,positionFirstPrev,startingY,positionFirst,positionSecond);
             return true;
         }
