@@ -19,23 +19,40 @@ public class Main {
     public static void main(String[] args) {
 //        Board b=new Board();
 
+//
+//        try {
+//            String pgnContent = StringReader.pgnFileToString("src/Tbilisi2015.pgn");
+//            List<String> l=StringReader.separatedAllGamesIntoFullGamesList(pgnContent);
+//
+//            for (int i =0 ; i<l.size() ; i++) {
+//               List<List<String>> ll= StringReader.parseGameNotation(l.get(i)).get(1);
+//               Board b=new Board();
+////                System.out.println(ll);
+//
+//
+//                    System.out.println(GameValidator.validateGameMoves(ll,b));
+//
+//
+//            }
+//        } catch (IOException e) {
+//            System.err.println("Error reading file: " + e.getMessage());
+//        }
 
-        try {
-            String pgnContent = StringReader.pgnFileToString("src/Tbilisi2015.pgn");
-            List<String> l=StringReader.separatedAllGamesIntoFullGamesList(pgnContent);
 
-            for (int i =0 ; i<l.size() ; i++) {
-               List<List<String>> ll= StringReader.parseGameNotation(l.get(i)).get(1);
-               Board b=new Board();
-//                System.out.println(ll);
+            String defaultPath = "src/Tbilisi2015.pgn";
+            String filePath = args.length > 0 ? args[0] : defaultPath;
 
-
-                    System.out.println(GameValidator.validateGameMoves(ll,b));
-
-
+            int numThreads = Runtime.getRuntime().availableProcessors();
+            if (args.length > 1) {
+                try {
+                    numThreads = Integer.parseInt(args[1]);
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid thread count, using default: " + numThreads);
+                }
             }
-        } catch (IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
-        }
+
+            GameRunner runner = new GameRunner(filePath, numThreads);
+            runner.startGame();
+
     }
     }

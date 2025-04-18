@@ -79,57 +79,97 @@ public class GameValidator {
         if (move == null || move.isEmpty()) return false;
         char[] movesInCharArray = move.toCharArray();
 
+
+
         if (CASTLE_PATTERN.matcher(move).matches()) {
-            boolean isKingside = move.equals("O-O");
-            int row = color.equals("w") ? 7 : 0; // 0=black, 7=white
-            int kingCol = 4; // e-file
-            int rookCol = isKingside ? 7 : 0; // h-file or a-file
-            int kingDestCol = isKingside ? 6 : 2; // g-file or c-file
-            int rookDestCol = isKingside ? 5 : 3; // f-file or d-file
+            if (movesInCharArray.length == 3) {
+                /// O-O
+                if (color.equals("w")) {
+                    if (!King.hasMovedWhite || !Rook.hasMovedWhiteY7) {
+                        Figurine king = board.getSquare("e", 1);
+                        Figurine rook = board.getSquare("h", 1);
+                        if (king instanceof King && king.getColor().equals(color) &&
+                                rook instanceof Rook && rook.getColor().equals(color)) {
+                            if (board.isSquareEmpty(7, 5) &&
+                                    board.isSquareEmpty(7, 6)
+                            ) {
+                                Figurine.move(board, 7, 4, 7, 6);
+                                Figurine.move(board, 7, 7, 7, 5);
+                                return true;
+                            }
+                            return false;
 
-            // Check if pieces haven't moved
-            if ((color.equals("w") && (King.hasMovedWhite || (isKingside ? Rook.hasMovedWhiteY7 : Rook.hasMovedWhiteY0))) ||
-                    (color.equals("b") && (King.hasMovedBlack || (isKingside ? Rook.hasMovedBlackY7 : Rook.hasMovedBlackY0)))) {
-                System.out.println("Error: King or rook has moved before");
-                return false;
-            }
+                        }
+                        return false;
+                    }
+                    return false;
+                } else if (color.equals("b")) {
+                    if (!King.hasMovedBlack || !Rook.hasMovedBlackY7) {
+                        Figurine king = board.getSquare("e", 8);
+                        Figurine rook = board.getSquare("h", 8);
+                        if (king instanceof King && king.getColor().equals(color) &&
+                                rook instanceof Rook && rook.getColor().equals(color)) {
+                            if (board.isSquareEmpty(0, 5) &&
+                                    board.isSquareEmpty(0, 6)
+                            ) {
+                                Figurine.move(board, 0, 4, 0, 6);
+                                Figurine.move(board, 0, 7, 0, 5);
+                                return true;
+                            }
+                            return false;
 
-            // Verify king and rook are in correct positions
-            Figurine king = board.getSquare(row, kingCol);
-            Figurine rook = board.getSquare(row, rookCol);
-
-            if (!(king instanceof King)) {
-                System.out.println("Error: King not found at starting position");
-                return false;
-            }
-            if (!(rook instanceof Rook)) {
-                System.out.println("Error: Rook not found at starting position");
-                return false;
-            }
-            if (!king.getColor().equals(color) || !rook.getColor().equals(color)) {
-                System.out.println("Error: King/rook color mismatch");
-                return false;
-            }
-
-            // Check if squares between are empty
-            if (isKingside) {
-                if (!board.isSquareEmpty(row, 5) || !board.isSquareEmpty(row, 6)) {
-                    System.out.println("Error: Squares between king and rook are not empty (kingside)");
+                        }
+                        return false;
+                    }
                     return false;
                 }
-            } else {
-                if (!board.isSquareEmpty(row, 1) || !board.isSquareEmpty(row, 2) || !board.isSquareEmpty(row, 3)) {
-                    System.out.println("Error: Squares between king and rook are not empty (queenside)");
+            }
+            else if (movesInCharArray.length == 5) {
+                /// O-O-O
+                if (color.equals("w")) {
+                    if (!King.hasMovedWhite || !Rook.hasMovedWhiteY7) {
+                        Figurine king = board.getSquare("e", 1);
+                        Figurine rook = board.getSquare("a", 1);
+                        if (king instanceof King && king.getColor().equals(color) &&
+                                rook instanceof Rook && rook.getColor().equals(color)) {
+                            if (board.isSquareEmpty(7, 1) &&
+                                    board.isSquareEmpty(7, 2) && board.isSquareEmpty(7, 3)
+                            ) {
+                                Figurine.move(board, 7, 4, 7, 2);
+                                Figurine.move(board, 7, 0, 7, 3);
+                                return true;
+                            }
+                            return false;
+
+                        }
+                        return false;
+                    }
                     return false;
-                }
+                } else if (color.equals("b")) {
+                    if (!King.hasMovedBlack || !Rook.hasMovedBlackY7) {
+                        Figurine king = board.getSquare("e", 8);
+                        Figurine rook = board.getSquare(0, 0);
+                        if (king instanceof King && king.getColor().equals(color) &&
+                                rook instanceof Rook && rook.getColor().equals(color)) {
+                            if (board.isSquareEmpty(0, 1) &&
+                                    board.isSquareEmpty(0, 2) && board.isSquareEmpty(0, 3)
+                            ) {
+                                Figurine.move(board, 0, 4, 0, 2);
+                                Figurine.move(board, 0, 0, 0, 3);
+                                return true;
+                            }
+                            return false;
+
+                        }
+                        return false;
+                    }
+                    return false;
+                } else return false;
             }
 
 
-            Figurine.move(board, row, kingCol, row, kingDestCol);
-            Figurine.move(board, row, rookCol, row, rookDestCol);
+            return false;
 
-
-            return true;
         }
 
         else if (PAWN_MOVE_PATTERN.matcher(move).matches()) {

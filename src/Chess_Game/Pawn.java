@@ -122,6 +122,18 @@ public class Pawn extends Figurine {
         return false;
     }
 
+    /**
+     * Calculate the previous position based on color
+     * (used for pawn movement logic)
+     * @param currentPos Current position
+     * @param color Color of the piece
+     * @return Previous rank position
+     */
+    public int calculatePreviousPosition(int currentPos, String color) {
+        return color.equals("w") ? currentPos + 1 : currentPos - 1;
+    }
+
+
 
 
 }
