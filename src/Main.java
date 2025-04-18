@@ -57,28 +57,12 @@ public class Main {
 
         try {
             String pgnContent = StringReader.pgnFileToString("src/Tbilisi2015.pgn");
+            List<String> l=StringReader.separatedAllGamesIntoFullGamesList(pgnContent);
 
-            List<String> ayo=StringReader.separatedFullGamesIntoFullGamesList(pgnContent);
-            System.out.println(ayo.get(0));
-            List<List<List<String>>> s= StringReader.parseGameNotation(ayo.get(0));
+            for (int i =0 ; i<l.size() ; i++) {
 
-                System.out.println(GameValidator.validateGameMoves(s.get(1),b));
-
-//            for (int i = 0; i < ayo.size(); i++) {
-//                Board board=new Board();
-//                List<List<List<String>>> s= StringReader.parseGameNotation(ayo.get(i));
-//
-//                System.out.println(GameValidator.validateGameMoves(s.get(1),board));
-//
-//            }
-
-//            System.out.println(list);
-
-
-
-//            System.out.println(ls.get(0)+ "\n"+ls.get(1)+"\n"+ls.get(2));
-
-
+                System.out.println( StringReader.parseGameNotation(l.get(i)).get(0));
+            }
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());
         }

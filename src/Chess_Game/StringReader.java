@@ -26,16 +26,19 @@ public class StringReader {
 //        gameData = [   [ whitemove ,blackmove ]  ,  [ whitemove , blackmove ]  , ... ]
 //
 
-    public static String pgnFileToString(String filePath) throws IOException {
-        return new String(Files.readAllBytes(Paths.get(filePath)));
-    }
+
 
     private static final Pattern TAG_PATTERN = Pattern.compile("\\[(\\w+)\\s+\"([^\"]*)\"\\]");
     private static final Pattern MOVE_TEXT_PATTERN = Pattern.compile(
             "([KQRBN]?[a-h]?[1-8]?x?[a-h][1-8](?:=[QRBN])?|O-O|O-O-O)(?:[+#])?");
     private static final Pattern MOVE_NUMBER_PATTERN = Pattern.compile("(\\d+)\\.+\\s*");
     private static final Pattern RESULT_PATTERN = Pattern.compile("(1-0|0-1|1/2-1/2|\\*)");
-    public static List<String> separatedFullGamesIntoFullGamesList(String fileContent) {
+
+
+    public static String pgnFileToString(String filePath) throws IOException {
+        return new String(Files.readAllBytes(Paths.get(filePath)));
+    }
+    public static List<String> separatedAllGamesIntoFullGamesList(String fileContent) {
         List<String> games = new ArrayList<>();
 
         String normalized = fileContent.replace("\r\n", "\n").trim();
@@ -51,6 +54,30 @@ public class StringReader {
 
         return games;
     }
+    public static List<List<List <String>>> parseGameNotation(String fullGame) {
+        List<List<List<String>>> parsedGame = new ArrayList<>();
+
+        // First parse metadata and moves+result
+        List<List<String>> metaGameResult = parseSingleGameIntoMetaPlusGamePlusResultList(fullGame);
+
+        // Then parse the metadata into structured list
+        List<List<String>> structuredMetadata = parseMetadataIntoList(fullGame);
+
+        // Then parse the moves into pairs
+        String movesText = metaGameResult.get(1).get(0);
+        List<List<String>> movePairs = parseGameIntoMovesList(movesText);
+
+        // Get the result
+        String result = metaGameResult.get(2).get(0);
+
+        // Structure the output
+        parsedGame.add(structuredMetadata);  // Index 0: Structured metadata
+        parsedGame.add(movePairs);           // Index 1: Move pairs
+        parsedGame.add(Collections.singletonList(Collections.singletonList(result))); // Index 2: Result
+
+        return parsedGame;
+    }
+
 
     private static  List<List<String>> parseSingleGameIntoMetaPlusGamePlusResultList(String gameText) {
         List<List<String>> gameData = new ArrayList<>();
@@ -71,14 +98,12 @@ public class StringReader {
             result = resultMatcher.group();
             movesAndResult = movesAndResult.substring(0, resultMatcher.start()).trim();
         }
-
         gameData.add(metadata);  // Metadata at index 0
         gameData.add(Collections.singletonList(movesAndResult));  // Move text at index 1
         gameData.add(Collections.singletonList(result));  // Result at index 2
 
         return gameData;
     }
-
 
     private static List<List<String>> parseGameIntoMovesList(String movesData){
         List<List<String>> movesList = new ArrayList<>();
@@ -137,29 +162,7 @@ public class StringReader {
     }
 
 
-    public static List<List<List <String>>> parseGameNotation(String fullGame) {
-        List<List<List<String>>> parsedGame = new ArrayList<>();
 
-        // First parse metadata and moves+result
-        List<List<String>> metaGameResult = parseSingleGameIntoMetaPlusGamePlusResultList(fullGame);
-
-        // Then parse the metadata into structured list
-        List<List<String>> structuredMetadata = parseMetadataIntoList(fullGame);
-
-        // Then parse the moves into pairs
-        String movesText = metaGameResult.get(1).get(0);
-        List<List<String>> movePairs = parseGameIntoMovesList(movesText);
-
-        // Get the result
-        String result = metaGameResult.get(2).get(0);
-
-        // Structure the output
-        parsedGame.add(structuredMetadata);  // Index 0: Structured metadata
-        parsedGame.add(movePairs);           // Index 1: Move pairs
-        parsedGame.add(Collections.singletonList(Collections.singletonList(result))); // Index 2: Result
-
-        return parsedGame;
-    }
 
 
 }

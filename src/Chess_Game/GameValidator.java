@@ -33,12 +33,7 @@ public class GameValidator {
     private static final Pattern CASTLE_PATTERN =
             Pattern.compile("^(O-O|O-O-O)$");
 
-    /**
-     * Validates a list of move pairs (white and black moves)
-     *
-     * @param gameData List of move pairs in format [[whiteMove, blackMove], ...]
-     * @return true if all moves are valid, false otherwise
-     */
+
     public static boolean validateGameMoves(List<List<String>> gameData,Board board) {
         for (List<String> movePair : gameData) {
             String whiteMove = movePair.get(0);
@@ -58,13 +53,6 @@ public class GameValidator {
         return true;
     }
 
-    /**
-     * Checks if a move string is valid according to chess notation rules
-     * @param move The move string to validate
-     * @return true if valid, false otherwise
-     */
-
-
 
     private static final Map<Character, Integer> FILE_TO_Y = Map.of(
             'a', 0, 'b', 1, 'c', 2, 'd', 3,
@@ -82,6 +70,9 @@ public class GameValidator {
     private static int numberToX(char rank) {
         return RANK_TO_X.get(rank);
     }
+
+
+    ///todo what about pawn becoming queen
 
     public static boolean isValidMove(String move, String color , Board board) {
 
@@ -112,7 +103,6 @@ public class GameValidator {
             return pawn.isLegalCapture(-1, startingY, checkX, checkY, board);
         }
 
-        ///todo what about pawn becoming queen
 
         if (PIECE_MOVE_PATTERN.matcher(move).matches()) {
             char movePiece = movesInCharArray[0];
@@ -166,42 +156,6 @@ public class GameValidator {
 
             return figurine.isLegalMove(fromPosX, fromPosY, targetX, targetY, board);
         }
-//
-//        if (PIECE_CAPTURE_PATTERN.matcher(move).matches()) {
-//            // Similar structure as above but for captures
-//            char movePiece = movesInCharArray[0];
-//            int fromPosX = -1;
-//            int fromPosY = -1;
-//            int targetX = numberToX(movesInCharArray[movesInCharArray.length-1]);
-//            int targetY = letterToY(movesInCharArray[movesInCharArray.length-2]);
-//
-//            // Handle capture disambiguation
-//            if (movesInCharArray.length > 3) {
-//                char disambigChar = movesInCharArray[1];
-//                if (disambigChar == 'x') {
-//                    // No disambiguation (e.g., "Nxf3")
-//                }
-//                else if (disambigChar >= 'a' && disambigChar <= 'h') {
-//                    fromPosY = letterToY(disambigChar);
-//                }
-//                else if (disambigChar >= '1' && disambigChar <= '8') {
-//                    fromPosX = numberToX(disambigChar);
-//                }
-//            }
-//
-//            Figurine figurine = switch (movePiece) {
-//                case 'K' -> new King(color);
-//                case 'Q' -> new Queen(color);
-//                case 'R' -> new Rook(color);
-//                case 'B' -> new Bishop(color);
-//                case 'N' -> new Knight(color);
-//                default -> null;
-//            };
-//
-//            if (figurine == null) return false;
-//
-//            return figurine.isLegalCapture(fromPosX, fromPosY, targetX, targetY, board);
-//        }
 
         if (PIECE_CAPTURE_PATTERN.matcher(move).matches()) {
             char movePiece = movesInCharArray[0];
@@ -253,10 +207,9 @@ public class GameValidator {
             // Call isLegalCapture instead of isLegalMove
             return figurine.isLegalCapture(fromPosX, fromPosY, targetX, targetY, board);
         }
-
-
         return false;
     }
+
 
 
     }
