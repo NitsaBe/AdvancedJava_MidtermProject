@@ -1,28 +1,36 @@
-package Chess_Game;
+
 
 public class Queen extends Figurine {
+    /**
+     * Constructs a Queen with the specified color.
+     *
+     * @param color The color of the queen ("w" for white, "b" for black)
+     */
+
     public Queen(String color) {
-        this.color=color;
+        this.color = color;
     }
-    //        [ [0][0], [0][1], [0][2], [0][3], [0][4], [0][5], [0][6], [0][7] ], // Row 0   blacks   [  [8][a]  ,[8][b] ...
-//            [ [1][0], [1][1], [1][2], [1][3], [1][4], [1][5], [1][6], [1][7] ], // Row 1
-//            [ [2][0], [2][1], [2][2], [2][3], [2][4], [2][5], [2][6], [2][7] ], // Row 2
-//            [ [3][0], [3][1], [3][2], [3][3], [3][4], [3][5], [3][6], [3][7] ], // Row 3
-//            [ [4][0], [4][1], [4][2], [4][3], [4][4], [4][5], [4][6], [4][7] ], // Row 4
-//            [ [5][0], [5][1], [5][2], [5][3], [5][4], [5][5], [5][6], [5][7] ], // Row 5
-//            [ [6][0], [6][1], [6][2], [6][3], [6][4], [6][5], [6][6], [6][7] ], // Row 6
-//            [ [7][0], [7][1], [7][2], [7][3], [7][4], [7][5], [7][6], [7][7] ]  // Row 7   whites
-
-
+    /**
+     * Helper method to check if a move is legal in a specific direction.
+     *
+     * @param positionFirst Target position x
+     * @param positionSecond Target position y
+     * @param board The chess board
+     * @param color The color of the queen
+     * @param checkPosX Current check position x
+     * @param checkPosY Current check position y
+     * @param direction Direction to check
+     * @return True if the move is legal
+     */
     private boolean isLegalMoveHelper(int positionFirst, int positionSecond, Board board, String color,
                                       int checkPosX, int checkPosY, int direction) {
-
+        // Check board boundaries
         if (checkPosX > 7 || checkPosX < 0 || checkPosY > 7 || checkPosY < 0) {
+//            System.out.println("Error: Queen move out of board bounds");
             return false;
         }
 
         Figurine figure = board.getSquare(checkPosX, checkPosY);
-
 
         if (!board.isSquareEmpty(checkPosX, checkPosY)) {
             if (figure instanceof Queen) {
@@ -31,6 +39,7 @@ public class Queen extends Figurine {
                     return true;
                 }
             }
+//            System.out.println("Error: Queen path blocked by opponent piece");
             return false;
         }
 
@@ -39,9 +48,9 @@ public class Queen extends Figurine {
                     isLegalMoveHelper(positionFirst, positionSecond, board, color, checkPosX, checkPosY - 1, direction);
             case 1 -> // Up-Right
                     isLegalMoveHelper(positionFirst, positionSecond, board, color, checkPosX + 1, checkPosY - 1, direction);
-            case 2 -> // right
+            case 2 -> // Right
                     isLegalMoveHelper(positionFirst, positionSecond, board, color, checkPosX + 1, checkPosY, direction);
-            case 3 -> // right-Down
+            case 3 -> // Right-Down
                     isLegalMoveHelper(positionFirst, positionSecond, board, color, checkPosX + 1, checkPosY + 1, direction);
             case 4 -> // Down
                     isLegalMoveHelper(positionFirst, positionSecond, board, color, checkPosX, checkPosY + 1, direction);
@@ -49,35 +58,54 @@ public class Queen extends Figurine {
                     isLegalMoveHelper(positionFirst, positionSecond, board, color, checkPosX - 1, checkPosY + 1, direction);
             case 6 -> // Left
                     isLegalMoveHelper(positionFirst, positionSecond, board, color, checkPosX - 1, checkPosY, direction);
-            case 7 -> // Left-up
+            case 7 -> // Left-Up
                     isLegalMoveHelper(positionFirst, positionSecond, board, color, checkPosX - 1, checkPosY - 1, direction);
-            default -> false;
+            default -> {
+                System.out.println("Error: Invalid queen move direction");
+                yield false;
+            }
         };
     }
-
 
     @Override
     public boolean isLegalMove(int positionFirst, int positionSecond, Board board) {
         if (board.isSquareEmpty(positionFirst, positionSecond)) {
             for (int direction = 0; direction < 8; direction++) {
-                if (isLegalMoveHelper(positionFirst, positionSecond, board, this.color, direction,
-                        positionFirst, positionSecond)) {
+                if (isLegalMoveHelper(positionFirst, positionSecond, board, this.color,
+                        positionFirst, positionSecond, direction)) {
                     return true;
                 }
             }
+        } else {
+            System.out.println("Error: Queen target square is not empty");
         }
-
         return false;
-
     }
 
     @Override
     public boolean isLegalMove(int startingX, int startingY, int positionFirst, int positionSecond, Board board) {
+        if (startingX==-1&&startingY==-1){
+            return isLegalMove(positionFirst,positionSecond,board);
+        }
+        System.out.println("Error: Queen disambiguated moves not implemented");
         return false;
     }
 
     @Override
     public boolean isLegalCapture(int startingX, int startingY, int positionFirst, int positionSecond, Board board) {
-        return false;
+        if (board.isSquareEmpty(positionFirst, positionSecond) ||
+                board.getSquare(positionFirst, positionSecond).color.equals(color)) {
+            System.out.println("Error: Invalid queen capture - target empty or same color");
+            return false;
+        }
+        // Temporarily remove captured piece for move validation
+        Figurine captured = board.getSquare(positionFirst, positionSecond);
+        board.setSquare(positionFirst, positionSecond, null);
+        boolean isValid = isLegalMove(startingX, startingY, positionFirst, positionSecond, board);
+        // Restore captured piece if move was invalid
+        if (!isValid) {
+            board.setSquare(positionFirst, positionSecond, captured);
+        }
+        return isValid;
     }
 }

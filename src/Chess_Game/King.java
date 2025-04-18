@@ -1,61 +1,90 @@
-package Chess_Game;
+
 
 public class King  extends Figurine {
+    /**
+     * Constructs a King with the specified color.
+     *
+     * @param color The color of the king ("w" for white, "b" for black)
+     */
     public King(String color) {
         this.color = color;
     }
-
-    //        [ [0][0], [0][1], [0][2], [0][3], [0][4], [0][5], [0][6], [0][7] ], // Row 0   blacks   [  [8][a]  ,[8][b] ...
-//            [ [1][0], [1][1], [1][2], [1][3], [1][4], [1][5], [1][6], [1][7] ], // Row 1
-//            [ [2][0], [2][1], [2][2], [2][3], [2][4], [2][5], [2][6], [2][7] ], // Row 2
-//            [ [3][0], [3][1], [3][2], [3][3], [3][4], [3][5], [3][6], [3][7] ], // Row 3
-//            [ [4][0], [4][1], [4][2], [4][3], [4][4], [4][5], [4][6], [4][7] ], // Row 4
-//            [ [5][0], [5][1], [5][2], [5][3], [5][4], [5][5], [5][6], [5][7] ], // Row 5
-//            [ [6][0], [6][1], [6][2], [6][3], [6][4], [6][5], [6][6], [6][7] ], // Row 6
-//            [ [7][0], [7][1], [7][2], [7][3], [7][4], [7][5], [7][6], [7][7] ]  // Row 7   whites
+    // Track if each king has moved (for castling rules)
+    public static boolean hasMovedWhite = false;
+    public static boolean hasMovedBlack = false;
+    // Possible king moves in all 8 directions
+    private static final int[][] KING_MOVES = {
+            {-1, 0}, {-1, +1}, {0, +1}, {+1, +1},
+            {+1, 0}, {+1, -1}, {0, -1}, {-1, -1}
+    };
 
     @Override
     public boolean isLegalMove(int positionFirst, int positionSecond, Board board) {
-        if (!board.isSquareEmpty(positionFirst,positionSecond)) {
+        if (!board.isSquareEmpty(positionFirst, positionSecond)) {
             return false;
         }
-        final int[][] KING_MOVES = {
-                {-1, 0}, {-1, +1}, {0, +1}, {+1, +1},
-                {+1, 0}, {+1, -1}, {0, -1}, {-1, -1}
-        };
 
         String color = this.getColor();
 
-        for(int i=0 ; i<8;i++){
+        // Check all possible king moves
+        for (int[] move : KING_MOVES) {
+            int checkX = positionFirst + move[0];
+            int checkY = positionSecond + move[1];
 
-            int checkX = positionFirst + KING_MOVES[i][0];
-            int checkY = positionSecond + KING_MOVES[i][1];
-
-            Figurine figurine= board.getSquare(checkX,checkY);
-
-            if (figurine == null || !figurine.getColor().equals(color)) {
-               continue;
+            // Validate board boundaries
+            if (checkX < 0 || checkX >= 8 || checkY < 0 || checkY >= 8) {
+                continue;
             }
+
+            Figurine figurine = board.getSquare(checkX, checkY);
+
+            // Skip if no piece or different color piece
+            if (figurine == null || !figurine.getColor().equals(color)) {
+                continue;
+            }
+
+            // If there's a king of the same color at this position
             if (figurine instanceof King && figurine.getColor().equals(color)) {
                 move(board, checkX, checkY, positionFirst, positionSecond);
+
+                // Update has moved status
+                if (color.equals("w")) {
+                    hasMovedWhite = true;
+                } else if (color.equals("b")) {
+                    hasMovedBlack = true;
+                } else {
+                    return false;
+                }
                 return true;
             }
-
-
         }
 
         return false;
-
     }
 
     @Override
     public boolean isLegalMove(int startingX, int startingY, int positionFirst, int positionSecond, Board board) {
+        if(startingX==-1&&startingY==-1){
+            return isLegalMove(positionFirst,positionSecond,board);
+        }
         return false;
     }
 
 
     @Override
     public boolean isLegalCapture(int startingX, int startingY, int positionFirst, int positionSecond, Board board) {
+        if(startingX==-1&&startingY==-1){
+            return isLegalCapture(positionFirst,positionSecond,board);
+        }
         return false;
+    }
+    /**
+     * Check if a king of the specified color has moved.
+     *
+     * @param color The color to check ("w" for white, "b" for black)
+     * @return True if the king has moved, false otherwise
+     */
+    public static boolean hasKingMoved(String color) {
+        return color.equals("w") ? hasMovedWhite : hasMovedBlack;
     }
 }
