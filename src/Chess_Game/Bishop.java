@@ -1,4 +1,4 @@
-package Chess_Game;
+
 
 public class Bishop extends Figurine {
 
@@ -31,13 +31,14 @@ public class Bishop extends Figurine {
             // If the piece is a bishop of our color
             if (figure instanceof Bishop && figure.color.equals(color)) {
                 // If we're checking with a disambiguation constraint
-                if ((lastCheckX == checkPosX && lastCheckY == -1) ||
+                if ((lastCheckX==-1&&lastCheckY==-1)||(lastCheckX == checkPosX && lastCheckY == -1) ||
                         (lastCheckX == -1 && lastCheckY == checkPosY)) {
-                    return false;
-                }
 
-                move(board, checkPosX, checkPosY, targetX, targetY);
-                return true;
+                    move(board, checkPosX, checkPosY, targetX, targetY);
+                    return true;
+                }
+                return false;
+
             }
             return false; // Path blocked by another piece
         }
@@ -62,6 +63,9 @@ public class Bishop extends Figurine {
 
     @Override
     public boolean isLegalMove(int positionFirst, int positionSecond, Board board) {
+        if (positionFirst > 7 || positionFirst < 0 || positionSecond > 7 || positionSecond < 0) {
+            return false;
+        }
         if (board.isSquareEmpty(positionFirst, positionSecond)) {
             return isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 0, positionFirst - 1, positionSecond + 1, -1, -1) ||
                     isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 1, positionFirst + 1, positionSecond + 1, -1, -1) ||

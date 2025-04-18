@@ -1,4 +1,4 @@
-package Chess_Game;
+
 
 public abstract class Figurine {
 
