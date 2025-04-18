@@ -1,4 +1,4 @@
-package Chess_Game;
+
 
 import java.util.List;
 import java.util.Map;
@@ -74,19 +74,113 @@ public class GameValidator {
 
     ///todo what about pawn becoming queen
 
+/// ///////////needs actual implementation logical checker
+    public static String cleanNotation(String move) {
+        return move != null ? move.replaceAll("[+#]$", "") : null;
+    }
+    /// ////////////////////
+
     public static boolean isValidMove(String move, String color , Board board) {
+        move=cleanNotation(move);
+
 
         if (move == null || move.isEmpty()) return false;
         char[] movesInCharArray = move.toCharArray();
 
+
+
         if (CASTLE_PATTERN.matcher(move).matches()) {
+            if (movesInCharArray.length == 3) {
+                /// O-O
+                if (color.equals("w")) {
+                    if (!King.hasMovedWhite || !Rook.hasMovedWhiteY7) {
+                        Figurine king = board.getSquare("e", 1);
+                        Figurine rook = board.getSquare("h", 1);
+                        if (king instanceof King && king.getColor().equals(color) &&
+                                rook instanceof Rook && rook.getColor().equals(color)) {
+                            if (board.isSquareEmpty(7, 5) &&
+                                    board.isSquareEmpty(7, 6)
+                            ) {
+                                Figurine.move(board, 7, 4, 7, 6);
+                                Figurine.move(board, 7, 7, 7, 5);
+                                return true;
+                            }
+                            return false;
 
-            //todo
+                        }
+                        return false;
+                    }
+                    return false;
+                } else if (color.equals("b")) {
+                    if (!King.hasMovedBlack || !Rook.hasMovedBlackY7) {
+                        Figurine king = board.getSquare("e", 8);
+                        Figurine rook = board.getSquare("h", 8);
+                        if (king instanceof King && king.getColor().equals(color) &&
+                                rook instanceof Rook && rook.getColor().equals(color)) {
+                            if (board.isSquareEmpty(0, 5) &&
+                                    board.isSquareEmpty(0, 6)
+                            ) {
+                                Figurine.move(board, 0, 4, 0, 6);
+                                Figurine.move(board, 0, 7, 0, 5);
+                                return true;
+                            }
+                            return false;
 
-            return true;
+                        }
+                        return false;
+                    }
+                    return false;
+                }
+            }
+            else if (movesInCharArray.length == 5) {
+                /// O-O-O
+                if (color.equals("w")) {
+                    if (!King.hasMovedWhite || !Rook.hasMovedWhiteY7) {
+                        Figurine king = board.getSquare("e", 1);
+                        Figurine rook = board.getSquare("a", 1);
+                        if (king instanceof King && king.getColor().equals(color) &&
+                                rook instanceof Rook && rook.getColor().equals(color)) {
+                            if (board.isSquareEmpty(7, 1) &&
+                                    board.isSquareEmpty(7, 2) && board.isSquareEmpty(7, 3)
+                            ) {
+                                Figurine.move(board, 7, 4, 7, 2);
+                                Figurine.move(board, 7, 0, 7, 3);
+                                return true;
+                            }
+                            return false;
+
+                        }
+                        return false;
+                    }
+                    return false;
+                } else if (color.equals("b")) {
+                    if (!King.hasMovedBlack || !Rook.hasMovedBlackY7) {
+                        Figurine king = board.getSquare("e", 8);
+                        Figurine rook = board.getSquare(0, 0);
+                        if (king instanceof King && king.getColor().equals(color) &&
+                                rook instanceof Rook && rook.getColor().equals(color)) {
+                            if (board.isSquareEmpty(0, 1) &&
+                                    board.isSquareEmpty(0, 2) && board.isSquareEmpty(0, 3)
+                            ) {
+                                Figurine.move(board, 0, 4, 0, 2);
+                                Figurine.move(board, 0, 0, 0, 3);
+                                return true;
+                            }
+                            return false;
+
+                        }
+                        return false;
+                    }
+                    return false;
+                } else return false;
+            }
+
+
+            return false;
+
         }
 
-        if (PAWN_MOVE_PATTERN.matcher(move).matches()) {
+        else if (PAWN_MOVE_PATTERN.matcher(move).matches()) {
             int checkY = letterToY(movesInCharArray[0]);
             int checkX = numberToX(movesInCharArray[1]);
 
@@ -94,7 +188,7 @@ public class GameValidator {
             return pawn.isLegalMove(checkX, checkY, board);
         }
 
-        if (PAWN_CAPTURE_PATTERN.matcher(move).matches()) {
+        else if (PAWN_CAPTURE_PATTERN.matcher(move).matches()) {
             int startingY = letterToY(movesInCharArray[0]);
             int checkY = letterToY(movesInCharArray[2]);
             int checkX = numberToX(movesInCharArray[3]);
@@ -104,7 +198,7 @@ public class GameValidator {
         }
 
 
-        if (PIECE_MOVE_PATTERN.matcher(move).matches()) {
+        else if (PIECE_MOVE_PATTERN.matcher(move).matches()) {
             char movePiece = movesInCharArray[0];
             int fromPosX = -1;
             int fromPosY = -1;
@@ -157,7 +251,7 @@ public class GameValidator {
             return figurine.isLegalMove(fromPosX, fromPosY, targetX, targetY, board);
         }
 
-        if (PIECE_CAPTURE_PATTERN.matcher(move).matches()) {
+        else if (PIECE_CAPTURE_PATTERN.matcher(move).matches()) {
             char movePiece = movesInCharArray[0];
             int fromPosX = -1;
             int fromPosY = -1;
@@ -207,7 +301,8 @@ public class GameValidator {
             // Call isLegalCapture instead of isLegalMove
             return figurine.isLegalCapture(fromPosX, fromPosY, targetX, targetY, board);
         }
-        return false;
+
+        else return false;
     }
 
 

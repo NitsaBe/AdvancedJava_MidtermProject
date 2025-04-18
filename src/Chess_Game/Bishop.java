@@ -1,51 +1,71 @@
-package Chess_Game;
+
 
 public class Bishop extends Figurine {
 
     public Bishop(String color) {
         this.color = color;
     }
-
-    private boolean isLegalMoveHelper(int positionFirst, int positionSecond, Board board, String color,
+    /**
+     * Helper method to check if a bishop can move diagonally in a given direction
+     *
+     * @param targetX Target X position
+     * @param targetY Target Y position
+     * @param board Current board state
+     * @param color Bishop's color
+     * @param direction Direction of diagonal movement (0-3)
+     * @param checkPosX Current X position being checked
+     * @param checkPosY Current Y position being checked
+     * @param lastCheckX Last X position checked (for disambiguated moves)
+     * @param lastCheckY Last Y position checked (for disambiguated moves)
+     * @return true if move is legal, false otherwise
+     */
+    private boolean isLegalMoveHelper(int targetX, int targetY, Board board, String color,
                                       int direction, int checkPosX, int checkPosY, int lastCheckX, int lastCheckY) {
         if (checkPosX > 7 || checkPosX < 0 || checkPosY > 7 || checkPosY < 0) {
-//            System.out.println("Error: Bishop move out of board bounds");
             return false;
         }
-        Figurine figure = board.getSquare(checkPosX, checkPosY);
+
         if (!board.isSquareEmpty(checkPosX, checkPosY)) {
-            if (figure instanceof Bishop) {
-                if (figure.color.equals(color)) {
-                    if ((lastCheckX == checkPosX && lastCheckY == -1) ||
-                            (lastCheckX == -1 && lastCheckY == checkPosY)) {
-//                        System.out.println("Error: Bishop cannot move through same color pieces");
-                        return false;
-                    }
-                    move(board, checkPosX, checkPosY, positionFirst, positionSecond);
+            Figurine figure = board.getSquare(checkPosX, checkPosY);
+
+            // If the piece is a bishop of our color
+            if (figure instanceof Bishop && figure.color.equals(color)) {
+                // If we're checking with a disambiguation constraint
+                if ((lastCheckX==-1&&lastCheckY==-1)||(lastCheckX == checkPosX && lastCheckY == -1) ||
+                        (lastCheckX == -1 && lastCheckY == checkPosY)) {
+
+                    move(board, checkPosX, checkPosY, targetX, targetY);
                     return true;
                 }
-                System.out.println("Error: Bishop cannot capture same color piece");
                 return false;
+
             }
+            return false; // Path blocked by another piece
         }
-        if (direction == 0) {
-            return isLegalMoveHelper(positionFirst, positionSecond, board, color, direction, checkPosX - 1, checkPosY + 1, lastCheckX, lastCheckY);
-        }
-        if (direction == 1) {
-            return isLegalMoveHelper(positionFirst, positionSecond, board, color, direction, checkPosX + 1, checkPosY + 1, lastCheckX, lastCheckY);
-        }
-        if (direction == 2) {
-            return isLegalMoveHelper(positionFirst, positionSecond, board, color, direction, checkPosX + 1, checkPosY - 1, lastCheckX, lastCheckY);
-        }
-        if (direction == 3) {
-            return isLegalMoveHelper(positionFirst, positionSecond, board, color, direction, checkPosX - 1, checkPosY - 1, lastCheckX, lastCheckY);
-        }
-        System.out.println("Error: Invalid bishop move direction");
-        return false;
+
+        // Continue searching in the specified direction
+        return switch (direction) {
+            case 0 -> // Up-Left
+                    isLegalMoveHelper(targetX, targetY, board, color, direction,
+                            checkPosX - 1, checkPosY + 1, lastCheckX, lastCheckY);
+            case 1 -> // Up-Right
+                    isLegalMoveHelper(targetX, targetY, board, color, direction,
+                            checkPosX + 1, checkPosY + 1, lastCheckX, lastCheckY);
+            case 2 -> // Down-Right
+                    isLegalMoveHelper(targetX, targetY, board, color, direction,
+                            checkPosX + 1, checkPosY - 1, lastCheckX, lastCheckY);
+            case 3 -> // Down-Left
+                    isLegalMoveHelper(targetX, targetY, board, color, direction,
+                            checkPosX - 1, checkPosY - 1, lastCheckX, lastCheckY);
+            default -> false;
+        };
     }
 
     @Override
     public boolean isLegalMove(int positionFirst, int positionSecond, Board board) {
+        if (positionFirst > 7 || positionFirst < 0 || positionSecond > 7 || positionSecond < 0) {
+            return false;
+        }
         if (board.isSquareEmpty(positionFirst, positionSecond)) {
             return isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 0, positionFirst - 1, positionSecond + 1, -1, -1) ||
                     isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 1, positionFirst + 1, positionSecond + 1, -1, -1) ||
@@ -58,27 +78,28 @@ public class Bishop extends Figurine {
     }
 
     @Override
-    public boolean isLegalMove(int startingX, int startingY, int positionFirst, int positionSecond, Board board) {
+    public boolean isLegalMove(int startingX, int startingY, int targetX, int targetY, Board board) {
         if (startingX == -1 && startingY == -1) {
-            return isLegalMove(positionFirst, positionSecond, board);
+            return isLegalMove(targetX, targetY, board);
         } else if (startingY == -1) {
-            if (startingX > positionFirst) {
-                return isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 1, positionFirst, positionSecond, startingX, startingY) ||
-                        isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 2, positionFirst, positionSecond, startingX, startingY);
-            } else if (startingX < positionFirst) {
-                return isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 0, positionFirst, positionSecond, startingX, startingY) ||
-                        isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 3, positionFirst, positionSecond, startingX, startingY);
+            // File disambiguation (startingX specifies the rank)
+            if (startingX > targetX) {
+                return isLegalMoveHelper(targetX, targetY, board, this.color, 1, targetX, targetY, startingX, startingY) ||
+                        isLegalMoveHelper(targetX, targetY, board, this.color, 2, targetX, targetY, startingX, startingY);
+            } else if (startingX < targetX) {
+                return isLegalMoveHelper(targetX, targetY, board, this.color, 0, targetX, targetY, startingX, startingY) ||
+                        isLegalMoveHelper(targetX, targetY, board, this.color, 3, targetX, targetY, startingX, startingY);
             }
         } else {
-            if (startingY > positionSecond) {
-                return isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 0, positionFirst, positionSecond, startingX, startingY) ||
-                        isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 1, positionFirst, positionSecond, startingX, startingY);
-            } else if (startingY < positionSecond) {
-                return isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 2, positionFirst, positionSecond, startingX, startingY) ||
-                        isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 3, positionFirst, positionSecond, startingX, startingY);
+            // Rank disambiguation (startingY specifies the file)
+            if (startingY > targetY) {
+                return isLegalMoveHelper(targetX, targetY, board, this.color, 0, targetX, targetY, startingX, startingY) ||
+                        isLegalMoveHelper(targetX, targetY, board, this.color, 1, targetX, targetY, startingX, startingY);
+            } else if (startingY < targetY) {
+                return isLegalMoveHelper(targetX, targetY, board, this.color, 2, targetX, targetY, startingX, startingY) ||
+                        isLegalMoveHelper(targetX, targetY, board, this.color, 3, targetX, targetY, startingX, startingY);
             }
         }
-        System.out.println("Error: Invalid bishop move parameters");
         return false;
     }
 

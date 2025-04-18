@@ -1,15 +1,32 @@
-package Chess_Game;
+
 
 public class Queen extends Figurine {
+    /**
+     * Constructs a Queen with the specified color.
+     *
+     * @param color The color of the queen ("w" for white, "b" for black)
+     */
+
     public Queen(String color) {
         this.color = color;
     }
-
+    /**
+     * Helper method to check if a move is legal in a specific direction.
+     *
+     * @param positionFirst Target position x
+     * @param positionSecond Target position y
+     * @param board The chess board
+     * @param color The color of the queen
+     * @param checkPosX Current check position x
+     * @param checkPosY Current check position y
+     * @param direction Direction to check
+     * @return True if the move is legal
+     */
     private boolean isLegalMoveHelper(int positionFirst, int positionSecond, Board board, String color,
                                       int checkPosX, int checkPosY, int direction) {
         // Check board boundaries
         if (checkPosX > 7 || checkPosX < 0 || checkPosY > 7 || checkPosY < 0) {
-            System.out.println("Error: Queen move out of board bounds");
+//            System.out.println("Error: Queen move out of board bounds");
             return false;
         }
 
@@ -22,7 +39,7 @@ public class Queen extends Figurine {
                     return true;
                 }
             }
-            System.out.println("Error: Queen path blocked by opponent piece");
+//            System.out.println("Error: Queen path blocked by opponent piece");
             return false;
         }
 
@@ -67,6 +84,9 @@ public class Queen extends Figurine {
 
     @Override
     public boolean isLegalMove(int startingX, int startingY, int positionFirst, int positionSecond, Board board) {
+        if (startingX==-1&&startingY==-1){
+            return isLegalMove(positionFirst,positionSecond,board);
+        }
         System.out.println("Error: Queen disambiguated moves not implemented");
         return false;
     }
