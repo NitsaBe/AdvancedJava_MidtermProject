@@ -17,51 +17,22 @@ import java.util.List;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        Board b=new Board();
+//        Board b=new Board();
 
-//        Pawn pawn=      new Pawn("w");
-//        Pawn pp=      new Pawn("b");
-//        Bishop bishop=new Bishop("w");
-//        Knight knight=new Knight("b");
-//        Knight wn=new Knight("w");
-//
-//
-//        Queen q=new Queen("b");
-//        pawn.isLegalMove(4,7,b);
-//     pawn.isLegalMove(3,7,b);
-//        pawn.isLegalMove(4,0,b);
-//        pawn.isLegalMove(3,0,b);
-//
-//
-//        pp.isLegalMove(3,3,b);
-//        pp.isLegalMove(3,4,b);
-//        System.out.println((  q.isLegalCapture(4,7,b)));
-//        System.out.println( q.isLegalCapture(4,0,b));
-//        System.out.println( q.isLegalCapture(2,1,b));
-//        System.out.println( q.isLegalCapture(3,0,b));
-//
-//
-//
-//        Pawn s=      new Pawn("b");
-//        System.out.println(w.isLegalMove(4,1,b));
-//
-//        System.out.println( w.isLegalMove(3,1,b));
-//        System.out.println(     w.isLegalMove(2,1,b));
-//        System.out.println(  w.isLegalMove(1,1,b));
-//
-//        System.out.println(    w.isLegalCapture(1,0,1,b));
-//        System.out.println(    w.isLegalCapture(1,1,1,b));
-//        System.out.println(   w.isLegalCapture(1,1,3,b));
-//        System.out.println(w.isLegalCapture(1,1,0,b));
-//        System.out.println(s.isLegalMove(3,0,b));
 
         try {
             String pgnContent = StringReader.pgnFileToString("src/Tbilisi2015.pgn");
             List<String> l=StringReader.separatedAllGamesIntoFullGamesList(pgnContent);
 
             for (int i =0 ; i<l.size() ; i++) {
+               List<List<String>> ll= StringReader.parseGameNotation(l.get(i)).get(1);
+               Board b=new Board();
+//                System.out.println(ll);
 
-                System.out.println( StringReader.parseGameNotation(l.get(i)).get(0));
+
+                    System.out.println(GameValidator.validateGameMoves(ll,b));
+
+
             }
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());

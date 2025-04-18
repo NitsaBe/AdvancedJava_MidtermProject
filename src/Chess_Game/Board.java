@@ -30,7 +30,7 @@ public class Board {
         this.getBoard()[positionX][positionY]=null;
     }
 
-    public Figurine getSquare(String positionX , String positionY ){
+    public Figurine getSquare(String positionX , int positionY ){
         int posX=0;
         int posY=0;
         switch (positionX){
@@ -43,7 +43,7 @@ public class Board {
             case "g" : {posY=6;break;}
             case "h" : {posY=7;break;}
         }
-        posX=8-Integer.parseInt(positionY);
+        posX=8-positionY;
         return getSquare(posX,posY);
     }
 

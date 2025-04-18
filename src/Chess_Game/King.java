@@ -14,6 +14,9 @@ public class King  extends Figurine {
 //            [ [6][0], [6][1], [6][2], [6][3], [6][4], [6][5], [6][6], [6][7] ], // Row 6
 //            [ [7][0], [7][1], [7][2], [7][3], [7][4], [7][5], [7][6], [7][7] ]  // Row 7   whites
 
+
+    public static boolean hasMovedWhite=false;
+    public static boolean hasMovedBlack=false;
     @Override
     public boolean isLegalMove(int positionFirst, int positionSecond, Board board) {
         if (!board.isSquareEmpty(positionFirst,positionSecond)) {
@@ -38,6 +41,12 @@ public class King  extends Figurine {
             }
             if (figurine instanceof King && figurine.getColor().equals(color)) {
                 move(board, checkX, checkY, positionFirst, positionSecond);
+                if(this.getColor().equals("w")){
+                    King.hasMovedWhite=true;
+                }
+                else if (this.getColor().equals("b")){
+                    King.hasMovedBlack=true;
+                }else return false;
                 return true;
             }
 

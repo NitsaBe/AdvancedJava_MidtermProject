@@ -9,7 +9,7 @@ public class Queen extends Figurine {
                                       int checkPosX, int checkPosY, int direction) {
         // Check board boundaries
         if (checkPosX > 7 || checkPosX < 0 || checkPosY > 7 || checkPosY < 0) {
-            System.out.println("Error: Queen move out of board bounds");
+//            System.out.println("Error: Queen move out of board bounds");
             return false;
         }
 
@@ -22,7 +22,7 @@ public class Queen extends Figurine {
                     return true;
                 }
             }
-            System.out.println("Error: Queen path blocked by opponent piece");
+//            System.out.println("Error: Queen path blocked by opponent piece");
             return false;
         }
 
@@ -67,6 +67,9 @@ public class Queen extends Figurine {
 
     @Override
     public boolean isLegalMove(int startingX, int startingY, int positionFirst, int positionSecond, Board board) {
+        if (startingX==-1&&startingY==-1){
+            return isLegalMove(positionFirst,positionSecond,board);
+        }
         System.out.println("Error: Queen disambiguated moves not implemented");
         return false;
     }

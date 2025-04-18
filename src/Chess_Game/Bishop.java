@@ -24,7 +24,7 @@ public class Bishop extends Figurine {
                     move(board, checkPosX, checkPosY, positionFirst, positionSecond);
                     return true;
                 }
-                System.out.println("Error: Bishop cannot capture same color piece");
+//                System.out.println("Error: Bishop cannot capture same color piece");
                 return false;
             }
         }
