@@ -1,10 +1,27 @@
 package Chess_Game;
 
 public class Queen extends Figurine {
+    /**
+     * Constructs a Queen with the specified color.
+     *
+     * @param color The color of the queen ("w" for white, "b" for black)
+     */
+
     public Queen(String color) {
         this.color = color;
     }
-
+    /**
+     * Helper method to check if a move is legal in a specific direction.
+     *
+     * @param positionFirst Target position x
+     * @param positionSecond Target position y
+     * @param board The chess board
+     * @param color The color of the queen
+     * @param checkPosX Current check position x
+     * @param checkPosY Current check position y
+     * @param direction Direction to check
+     * @return True if the move is legal
+     */
     private boolean isLegalMoveHelper(int positionFirst, int positionSecond, Board board, String color,
                                       int checkPosX, int checkPosY, int direction) {
         // Check board boundaries

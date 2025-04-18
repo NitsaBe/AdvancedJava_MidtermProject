@@ -1,27 +1,45 @@
 package Chess_Game;
 
 public class Rook extends Figurine {
+    /**
+     * Constructs a Rook with the specified color.
+     *
+     * @param color The color of the rook ("w" for white, "b" for black)
+     */
     public Rook(String color) {
         this.color = color;
     }
-    //        [ [0][0], [0][1], [0][2], [0][3], [0][4], [0][5], [0][6], [0][7] ], // Row 0   blacks   [  [8][a]  ,[8][b] ...
-//            [ [1][0], [1][1], [1][2], [1][3], [1][4], [1][5], [1][6], [1][7] ], // Row 1
-//            [ [2][0], [2][1], [2][2], [2][3], [2][4], [2][5], [2][6], [2][7] ], // Row 2
-//            [ [3][0], [3][1], [3][2], [3][3], [3][4], [3][5], [3][6], [3][7] ], // Row 3
-//            [ [4][0], [4][1], [4][2], [4][3], [4][4], [4][5], [4][6], [4][7] ], // Row 4
-//            [ [5][0], [5][1], [5][2], [5][3], [5][4], [5][5], [5][6], [5][7] ], // Row 5
-//            [ [6][0], [6][1], [6][2], [6][3], [6][4], [6][5], [6][6], [6][7] ], // Row 6
-//            [ [7][0], [7][1], [7][2], [7][3], [7][4], [7][5], [7][6], [7][7] ]  // Row 7   whites
-    public static boolean hasMovedWhiteY0=false;
-    public static boolean hasMovedWhiteY7=false;
 
-    public static boolean hasMovedBlackY0=false;
-    public static boolean hasMovedBlackY7=false;
+    // Direction constants
+    private static final int UP = 0;
+    private static final int RIGHT = 1;
+    private static final int DOWN = 2;
+    private static final int LEFT = 3;
+
+    // Track if each rook has moved (for castling rules)
+    public static boolean hasMovedWhiteY0 = false;
+    public static boolean hasMovedWhiteY7 = false;
+    public static boolean hasMovedBlackY0 = false;
+    public static boolean hasMovedBlackY7 = false;
+
+    /**
+     * Helper method to check if a move is legal in a specific direction.
+     *
+     * @param positionFirst Target position x
+     * @param positionSecond Target position y
+     * @param board The chess board
+     * @param color The color of the rook
+     * @param direction Direction to check
+     * @param checkPosX Current check position x
+     * @param checkPosY Current check position y
+     * @param lastCheckX Last check position x (for disambiguation)
+     * @param lastCheckY Last check position y (for disambiguation)
+     * @return True if the move is legal
+     */
     private boolean isLegalMoveHelper(int positionFirst, int positionSecond, Board board, String color,
                                       int direction, int checkPosX, int checkPosY, int lastCheckX, int lastCheckY) {
         // Check if position is outside board bounds
         if (checkPosX > 7 || checkPosX < 0 || checkPosY > 7 || checkPosY < 0) {
-//            System.out.println("Error: Rook move out of board bounds");
             return false;
         }
 
@@ -32,26 +50,13 @@ public class Rook extends Figurine {
                 if (figure.color.equals(color)) {
                     if ((lastCheckX == checkPosX && lastCheckY == -1) ||
                             (lastCheckX == -1 && lastCheckY == checkPosY)) {
-//                        System.out.println("Error: Rook cannot move through same color pieces");
                         return false;
                     }
                     move(board, checkPosX, checkPosY, positionFirst, positionSecond);
-                   if( board.isSquareEmpty(0,0)){
-                       hasMovedBlackY0=true;
-                    }
-                   else if( board.isSquareEmpty(0,7)){
-                        hasMovedBlackY7=true;
-                    }
-                    else if( board.isSquareEmpty(7,0)){
-                        hasMovedWhiteY0=true;
-                    }
-                    else if( board.isSquareEmpty(7,7)){
-                       hasMovedWhiteY0=true;
-                   }
+                    updateRookMovedStatus(checkPosX, checkPosY);
                     return true;
                 }
             }
-//            System.out.println("Error: Rook path blocked by opponent piece");
             return false;
         }
 
@@ -70,10 +75,28 @@ public class Rook extends Figurine {
             }
         };
     }
+    /**
+            * Update the status of which rook has moved.
+            *
+            * @param x The x-coordinate of the moved rook
+     * @param y The y-coordinate of the moved rook
+     */
+    private void updateRookMovedStatus(int x, int y) {
+        if (x == 0 && y == 0) {
+            hasMovedBlackY0 = true;
+        } else if (x == 0 && y == 7) {
+            hasMovedBlackY7 = true;
+        } else if (x == 7 && y == 0) {
+            hasMovedWhiteY0 = true;
+        } else if (x == 7 && y == 7) {
+            hasMovedWhiteY7 = true;
+        }
+    }
 
     @Override
     public boolean isLegalMove(int positionFirst, int positionSecond, Board board) {
         if (board.isSquareEmpty(positionFirst, positionSecond)) {
+            // Try all 4 directions
             return isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 0, positionFirst, positionSecond, -1, -1) ||
                     isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 1, positionFirst, positionSecond, -1, -1) ||
                     isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 2, positionFirst, positionSecond, -1, -1) ||
@@ -90,6 +113,7 @@ public class Rook extends Figurine {
             return isLegalMove(positionFirst, positionSecond, board);
         }
 
+        // Handle disambiguated moves
         if (startingY == -1) {
             if (startingX > positionFirst) {
                 return isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 2, positionFirst, positionSecond, startingX, startingY);
@@ -108,17 +132,45 @@ public class Rook extends Figurine {
         return false;
     }
 
+
     @Override
     public boolean isLegalCapture(int startingX, int startingY, int positionFirst, int positionSecond, Board board) {
         if (startingX == -1 && startingY == -1) {
             return isLegalCapture(positionFirst, positionSecond, board);
         }
+
+        // Cannot capture empty square or same color
         if (board.isSquareEmpty(positionFirst, positionSecond) ||
                 board.getSquare(positionFirst, positionSecond).color.equals(color)) {
-            System.out.println("Error: Invalid rook capture - target empty or same color");
             return false;
         }
+
+        // Remove piece temporarily to check if move is valid
+        Figurine captured = board.getSquare(positionFirst, positionSecond);
         board.setSquare(positionFirst, positionSecond, null);
-        return isLegalMove(startingX, startingY, positionFirst, positionSecond, board);
+
+        boolean isValid = isLegalMove(startingX, startingY, positionFirst, positionSecond, board);
+
+        // Restore piece if move is invalid
+        if (!isValid) {
+            board.setSquare(positionFirst, positionSecond, captured);
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Check if a specific rook has moved.
+     *
+     * @param color The color of the rook
+     * @param position The position (0 for queenside, 7 for kingside)
+     * @return True if the rook has moved
+     */
+    public static boolean hasRookMoved(String color, int position) {
+        if (color.equals("w")) {
+            return position == 0 ? hasMovedWhiteY0 : hasMovedWhiteY7;
+        } else {
+            return position == 0 ? hasMovedBlackY0 : hasMovedBlackY7;
+        }
     }
 }

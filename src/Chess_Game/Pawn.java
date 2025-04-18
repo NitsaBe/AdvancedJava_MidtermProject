@@ -2,15 +2,11 @@ package Chess_Game;
 
 public class Pawn extends Figurine {
 
-    //        [ [0][0], [0][1], [0][2], [0][3], [0][4], [0][5], [0][6], [0][7] ], // Row 0   blacks   [  [8][a]  ,[8][b] ...
-//            [ [1][0], [1][1], [1][2], [1][3], [1][4], [1][5], [1][6], [1][7] ], // Row 1
-//            [ [2][0], [2][1], [2][2], [2][3], [2][4], [2][5], [2][6], [2][7] ], // Row 2
-//            [ [3][0], [3][1], [3][2], [3][3], [3][4], [3][5], [3][6], [3][7] ], // Row 3
-//            [ [4][0], [4][1], [4][2], [4][3], [4][4], [4][5], [4][6], [4][7] ], // Row 4
-//            [ [5][0], [5][1], [5][2], [5][3], [5][4], [5][5], [5][6], [5][7] ], // Row 5
-//            [ [6][0], [6][1], [6][2], [6][3], [6][4], [6][5], [6][6], [6][7] ], // Row 6
-//            [ [7][0], [7][1], [7][2], [7][3], [7][4], [7][5], [7][6], [7][7] ]  // Row 7   whites
-
+    /**
+     * Constructs a Pawn with the specified color.
+     *
+     * @param color The color of the pawn ("w" for white, "b" for black)
+     */
     public Pawn (String color){
         this.color=color;
     }
@@ -18,46 +14,50 @@ public class Pawn extends Figurine {
 
     @Override
     public boolean isLegalMove(int positionFirst, int positionSecond, Board board) {
+        String color = this.getColor();
 
-        String color=this.getColor();
-
-        if (!board.isSquareEmpty(positionFirst,positionSecond)) {
+        // Cannot move to an occupied square
+        if (!board.isSquareEmpty(positionFirst, positionSecond)) {
             return false;
         }
 
+        // Calculate the previous position based on color
         int prevPosFirst = calculatePreviousPosition(positionFirst, color);
 
+        // Check if the previous position is valid
         if (prevPosFirst < 0 || prevPosFirst >= board.getBoard().length) {
-            System.out.println("Invalid previous position for pawn");
             return false;
         }
 
+        // Check if there's a pawn in the previous position that can move
         Figurine fig = board.getSquare(prevPosFirst, positionSecond);
-        if (fig !=null) {
-
-            if (isValidPawn(fig, color)) {
-                move(board, prevPosFirst, positionSecond, positionFirst, positionSecond);
-                return true;
-            }
-
+        if (fig != null && isValidPawn(fig, color)) {
+            move(board, prevPosFirst, positionSecond, positionFirst, positionSecond);
+            return true;
         }
 
-        else if (isInitPosTarget(positionFirst,positionSecond,color)){
-            prevPosFirst = calculatePreviousPosition(prevPosFirst, color);
-            fig = board.getSquare(prevPosFirst, positionSecond);
-            if (fig !=null) {
-                if (isValidPawn(fig, color)) {
-                    move(board, prevPosFirst, positionSecond, positionFirst, positionSecond);
+        // Check for initial two-square pawn move
+        if (isInitPosTarget(positionFirst, positionSecond, color)) {
+            int startingPos = calculatePreviousPosition(prevPosFirst, color);
+            fig = board.getSquare(startingPos, positionSecond);
+
+            if (fig != null && isValidPawn(fig, color)) {
+                // Ensure the square between is also empty
+                if (board.isSquareEmpty(prevPosFirst, positionSecond)) {
+                    move(board, startingPos, positionSecond, positionFirst, positionSecond);
                     return true;
                 }
             }
-
         }
+
         return false;
     }
 
     @Override
     public boolean isLegalMove(int startingX, int startingY, int positionFirst, int positionSecond, Board board) {
+        if (startingX==-1&&startingY==-1){
+            return isLegalMove(positionFirst,positionSecond,board);
+        }
         return false;
     }
 
@@ -104,14 +104,25 @@ public class Pawn extends Figurine {
         return false;
     }
 
-
-
-
-
+    /**
+     * Checks if the figurine is a valid pawn of the specified color.
+     *
+     * @param fig The figurine to check
+     * @param color The color to check for
+     * @return True if the figurine is a pawn of the specified color
+     */
     private boolean isValidPawn(Figurine fig, String color) {
         return fig instanceof Pawn && fig.getColor().equals(color);
     }
 
+    /**
+     * Checks if the target position is a valid initial two-square move target.
+     *
+     * @param x The rank (row) position
+     * @param y The file (column) position
+     * @param c The color of the pawn
+     * @return True if the position is a valid initial two-square move target
+     */
     private boolean isInitPosTarget(int x, int y ,String c){
         if(c.equals("w")){
             return (x == 4) && (y >= 0 && y < 8);
