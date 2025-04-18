@@ -2,6 +2,8 @@ import Chess_Game.*;
 
 import java.io.IOException;
 import java.util.List;
+
+
 //            [ [0][0], [0][1], [0][2], [0][3], [0][4], [0][5], [0][6], [0][7] ], // Row 0   blacks   [  [8][a]  ,[8][b] ...
 //            [ [1][0], [1][1], [1][2], [1][3], [1][4], [1][5], [1][6], [1][7] ], // Row 1
 //            [ [2][0], [2][1], [2][2], [2][3], [2][4], [2][5], [2][6], [2][7] ], // Row 2
@@ -19,39 +21,29 @@ public class Main {
         for (int i=0 ; i<8 ; i++){
             System.out.println(b.getBoard()[i][i]);
         }
-        Pawn pawn=      new Pawn("w");
-        Pawn pp=      new Pawn("b");
-        Bishop bishop=new Bishop("w");
-        Knight knight=new Knight("b");
-        Knight wn=new Knight("w");
-
-//        pawn.isLegalMove(4 , 6 ,b);
-//        pawn.isLegalMove(4 , 3,b);
-//        pawn.isLegalMove(4 , 3,b);
+//        Pawn pawn=      new Pawn("w");
+//        Pawn pp=      new Pawn("b");
+//        Bishop bishop=new Bishop("w");
+//        Knight knight=new Knight("b");
+//        Knight wn=new Knight("w");
 //
-//        System.out.println(bishop.isLegalMove(7,-1,2,7,b));;
-//        System.out.println(wn.isLegalMove(5,2,b));;
-
-        Queen q=new Queen("b");
-        pawn.isLegalMove(4,7,b);
-//        pawn.isLegalMove(3,7,b);
-        pawn.isLegalMove(4,0,b);
-        pawn.isLegalMove(3,0,b);
-
-
-        pp.isLegalMove(3,3,b);
-        pp.isLegalMove(3,4,b);
-        System.out.println((  q.isLegalCapture(4,7,b)));
-        System.out.println( q.isLegalCapture(4,0,b));
-        System.out.println( q.isLegalCapture(2,1,b));
-        System.out.println( q.isLegalCapture(3,0,b));
-
-
-
-
-
-
-
+//
+//        Queen q=new Queen("b");
+//        pawn.isLegalMove(4,7,b);
+//     pawn.isLegalMove(3,7,b);
+//        pawn.isLegalMove(4,0,b);
+//        pawn.isLegalMove(3,0,b);
+//
+//
+//        pp.isLegalMove(3,3,b);
+//        pp.isLegalMove(3,4,b);
+//        System.out.println((  q.isLegalCapture(4,7,b)));
+//        System.out.println( q.isLegalCapture(4,0,b));
+//        System.out.println( q.isLegalCapture(2,1,b));
+//        System.out.println( q.isLegalCapture(3,0,b));
+//
+//
+//
 //        Pawn s=      new Pawn("b");
 //        System.out.println(w.isLegalMove(4,1,b));
 //
@@ -73,14 +65,17 @@ public class Main {
         try {
             String pgnContent = StringReader.pgnFileToString("src/Tbilisi2015.pgn");
 
-//
-//
-//            List<String> separatedGames = StringReader.separatedFullGames(pgnContent);
-//            System.out.println("\nFound " + separatedGames.size() + " games:");
-//            for (int i = 0; i < separatedGames.size(); i++) {
-//                System.out.println("Game " + (i+1) + " length: " + separatedGames.get(i).length() + separatedGames.get(i));
-//            }
 
+
+            List<String> separatedGames = StringReader.separatedFullGamesIntoFullGamesList(pgnContent);
+//            for (int i = 0; i < separatedGames.size(); i++) {
+//            }
+//            List<List<String>> parsedgame1 =StringReader.parseSingleGameIntoMetaPlusGamePlusResultList(separatedGames.get(1));
+//            System.out.println(parsedgame1.get(0)+ "\n"+parsedgame1.get(1)+"\n"+parsedgame1.get(2));
+//            List<List<String>> list=StringReader.parseGameIntoMovesList(parsedgame1.get(1).get(0));
+//            System.out.println(list);
+            List<List<List<String>>> ls=StringReader.parseGameNotation(separatedGames.get(0));
+            System.out.println(ls.get(0)+ "\n"+ls.get(1)+"\n"+ls.get(2));
 
 
         } catch (IOException e) {
