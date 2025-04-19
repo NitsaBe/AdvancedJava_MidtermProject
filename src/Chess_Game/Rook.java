@@ -95,6 +95,10 @@ public class Rook extends Figurine {
 
     @Override
     public boolean isLegalMove(int positionFirst, int positionSecond, Board board) {
+        // Check if position is outside board bounds
+        if (positionFirst > 7 || positionFirst < 0 || positionSecond > 7 || positionSecond < 0) {
+            return false;
+        }
         if (board.isSquareEmpty(positionFirst, positionSecond)) {
             // Try all 4 directions
             return isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 0, positionFirst, positionSecond, -1, -1) ||
@@ -119,6 +123,9 @@ public class Rook extends Figurine {
                 return isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 2, positionFirst, positionSecond, startingX, startingY);
             } else if (startingX < positionFirst) {
                 return isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 0, positionFirst, positionSecond, startingX, startingY);
+            }else{
+                return isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 1, positionFirst, positionSecond, startingX, startingY)||
+                        isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 3, positionFirst, positionSecond, startingX, startingY);
             }
         } else {
             if (startingY > positionSecond) {
@@ -126,10 +133,12 @@ public class Rook extends Figurine {
             } else if (startingY < positionSecond) {
                 return isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 3, positionFirst, positionSecond, startingX, startingY);
             }
+            else { return isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 2, positionFirst, positionSecond, startingX, startingY)||
+                    isLegalMoveHelper(positionFirst, positionSecond, board, this.color, 0, positionFirst, positionSecond, startingX, startingY);}
         }
 
-        System.out.println("Error: Invalid rook move parameters");
-        return false;
+//        System.out.println("Error: Invalid rook move parameters");
+//        return false;
     }
 
 

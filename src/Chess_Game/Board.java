@@ -159,4 +159,13 @@ public class Board {
         board[7][5] = new Bishop("w");
 
     }
+
+
+    public void clearBoard(){
+        for(int i = 0 ; i<this.getBoard().length ; i++){
+            for(int p = 0 ; p<this.getBoard().length ; p++){
+                this.clearSquare(i,p);
+            }
+        }
+    }
 }

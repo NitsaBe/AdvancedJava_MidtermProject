@@ -55,6 +55,7 @@ public class Knight extends Figurine {
     @Override
     public boolean isLegalMove(int positionFirst, int positionSecond, Board board) {
         boolean answer = false;
+        if (board.getSquare(positionFirst,positionSecond)!=null){return false;}
         for (int i = 0; i < 8; i++) {
             answer = isLegalMoveHelper(positionFirst, positionSecond, board, i);
             if (answer) {

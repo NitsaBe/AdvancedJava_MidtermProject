@@ -24,6 +24,7 @@ public abstract class Figurine {
      * @param toSecond Target Y coordinate
      */
     public static void move(Board board, int fromFirst, int fromSecond, int toFirst, int toSecond) {
+        if(board.getSquare(fromFirst,fromSecond)==null){return;}
         Figurine figurine=board.getSquare(fromFirst,fromSecond);
         board.clearSquare(fromFirst, fromSecond);
         board.setSquare(toFirst, toSecond, figurine);

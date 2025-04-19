@@ -1,0 +1,146 @@
+# Chess Game Validator
+
+A Java-based multi-threaded application for validating chess games from PGN (Portable Game Notation) files.
+
+## Overview
+
+This application validates chess games by parsing PGN files and verifying that each move follows standard chess rules. It can process multiple games simultaneously using multi-threading for improved performance.
+
+## Features
+
+- Parse and validate standard PGN chess notation
+- Multi-threaded processing for improved performance
+- Support for all standard chess pieces and special moves:
+  - Pawn moves and captures
+  - Knight, Bishop, Rook, Queen, and King movements
+  - Castling (both kingside and queenside)
+  - Move disambiguation (when multiple pieces can move to the same square)
+- Detailed validation reports and error logging
+
+## Project Structure
+
+The project consists of the following main components:
+
+- **Chess Pieces**:
+  - `Figurine.java` - Base class for chess pieces
+  - `Bishop.java`, `King.java`, `Knight.java`, `Pawn.java`, `Queen.java`, `Rook.java` - Piece implementations
+
+- **Game Logic**:
+  - `Board.java` - Represents the chess board and manages piece positions
+  - `GameValidator.java` - Validates chess moves according to standard rules
+  - `GameRunner.java` - Multi-threaded runner for processing multiple games
+
+- **Parsing**:
+  - `StringReader.java` - Parses PGN files into structured game data
+
+- **Main Application**:
+  - `Main.java` - Entry point for the application
+
+## How It Works
+
+1. **PGN Parsing**:
+   - The application reads PGN files containing chess games
+   - Each game is parsed into metadata and move sequences
+
+2. **Board Initialization**:
+   - For each game, a chess board is initialized with pieces in their starting positions
+
+3. **Move Validation**:
+   - Each move is validated against standard chess rules
+   - The board state is updated after each valid move
+
+4. **Multi-threading**:
+   - Multiple games can be processed simultaneously
+   - Each game validation runs in its own thread
+
+5. **Reporting**:
+   - Results are reported for each game (valid/invalid)
+   - Summary statistics are shown after all games are processed
+
+## Usage
+
+### Running the Application
+
+```java
+// Process a specific PGN file with default threads
+GameRunner runner = new GameRunner("path/to/your/file.pgn");
+runner.startGame();
+
+// Process a PGN file with a specific number of threads
+GameRunner runner = new GameRunner("path/to/your/file.pgn", 4);
+runner.startGame();
+```
+
+## Chess Rules Implementation
+
+### Move Validation
+
+Each chess piece's legal moves are implemented in their respective classes:
+
+- **Pawn**: Single/double forward move, diagonal captures
+- **Knight**: L-shaped movement
+- **Bishop**: Diagonal movement
+- **Rook**: Horizontal and vertical movement
+- **Queen**: Combines Bishop and Rook movement
+- **King**: Single square in any direction, castling
+
+### Special Rules
+
+- **Castling**: Requires the king and rook to not have moved previously
+- **Move Disambiguation**: When multiple pieces can move to the same square
+
+## Board Representation
+
+The chess board is represented as an 8x8 array with the following coordinates:
+
+```
+[0][0] = a8 (top-left, black's side)
+[7][7] = h1 (bottom-right, white's side)
+```
+
+Board visualization:
+```
+    [
+      [ [0][0], [0][1], [0][2], [0][3], [0][4], [0][5], [0][6], [0][7] ], // Row 0 (black's side)
+      [ [1][0], [1][1], [1][2], [1][3], [1][4], [1][5], [1][6], [1][7] ], // Row 1
+      [ [2][0], [2][1], [2][2], [2][3], [2][4], [2][5], [2][6], [2][7] ], // Row 2
+      [ [3][0], [3][1], [3][2], [3][3], [3][4], [3][5], [3][6], [3][7] ], // Row 3
+      [ [4][0], [4][1], [4][2], [4][3], [4][4], [4][5], [4][6], [4][7] ], // Row 4
+      [ [5][0], [5][1], [5][2], [5][3], [5][4], [5][5], [5][6], [5][7] ], // Row 5
+      [ [6][0], [6][1], [6][2], [6][3], [6][4], [6][5], [6][6], [6][7] ], // Row 6
+      [ [7][0], [7][1], [7][2], [7][3], [7][4], [7][5], [7][6], [7][7] ]  // Row 7 (white's side)
+    ]
+```
+
+## Technical Details
+
+### PGN Parsing
+
+The application uses regular expressions to parse PGN notation into structured data:
+
+- **Tag Pairs**: Metadata such as event name, players, date
+- **Move Text**: The actual chess moves in standard algebraic notation
+- **Game Result**: The outcome of the game (1-0, 0-1, 1/2-1/2, *)
+
+### Multi-threading
+
+- Uses a thread pool via Java's `ExecutorService`
+- Each game validation task runs in its own thread
+- Thread count defaults to the number of available processors
+- Timeout mechanism to prevent infinite processing
+
+## Performance Considerations
+
+- The application uses multi-threading to process games in parallel
+- Static flags for special conditions (king and rook movement) are reset between games
+- Regular expressions are compiled only once for efficiency
+
+## Future Improvements
+
+- Support for en passant captures
+- Pawn promotion handling
+- Check/checkmate validation
+- Support for additional PGN annotations and comments
+- Move history tracking for each piece
+- Improved error reporting with specific move validation failures
+- GUI for visual representation of board state
