@@ -36,10 +36,16 @@ public class GameValidator {
 
     public static boolean validateGameMoves(List<List<String>> gameData,Board board) {
         for (List<String> movePair : gameData) {
+
             String whiteMove = movePair.get(0);
             if (!isValidMove(whiteMove,"w",board)) {
                 System.err.println("Invalid white move: " + whiteMove);
                 return false;
+            }
+            if (movePair==gameData.getLast()){
+                if (movePair.get(1)==null){
+                    break;
+                }
             }
 
             if (movePair.size() > 1) {
@@ -85,6 +91,7 @@ public class GameValidator {
 
 
         if (move == null || move.isEmpty()) return false;
+
         char[] movesInCharArray = move.toCharArray();
 
 
