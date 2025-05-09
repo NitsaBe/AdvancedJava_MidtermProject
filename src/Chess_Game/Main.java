@@ -17,42 +17,7 @@ import java.util.List;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-//        Board b=new Board();
-
-//
-        try {
-            String pgnContent = StringReader.pgnFileToString("src/Tbilisi2015.pgn");
-            List<String> l = StringReader.separatedAllGamesIntoFullGamesList(pgnContent);
-
-            for (int i = 0; i < l.size(); i++) {
-
-
-                List<List<String>> ll = StringReader.parseGameNotation(l.get(i)).get(1);
-                Board b = new Board();
-//                GameValidator.processGame(i, pgnContent);
-
-
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
-        }
+        GameRunner g =new GameRunner("src/Tbilisi2015.pgn",1);
+        g.startGame();
     }
-
-
-//            String defaultPath = "src/Tbilisi2015.pgn";
-//            String filePath = args.length > 0 ? args[0] : defaultPath;
-//
-//            int numThreads = Runtime.getRuntime().availableProcessors();
-//            if (args.length > 1) {
-//                try {
-//                    numThreads = Integer.parseInt(args[1]);
-//                } catch (NumberFormatException e) {
-//                    System.err.println("Invalid thread count, using default: " + numThreads);
-//                }
-//            }
-//
-//            GameRunner runner = new GameRunner(filePath, numThreads);
-//            runner.startGame();
-
-
     }
