@@ -22,6 +22,61 @@ public class Board {
 
 
     private Figurine[][] board;
+    private  boolean hasMovedWhite = false;    //KING
+    private  boolean hasMovedBlack = false;    //KING
+
+    private   boolean hasMovedWhiteY0 = false;
+    private  boolean hasMovedWhiteY7 = false;
+    private  boolean hasMovedBlackY0 = false;
+    private  boolean hasMovedBlackY7 = false;
+
+    public void setHasMovedBlackY7(boolean hasMovedBlackY7) {
+        this.hasMovedBlackY7 = hasMovedBlackY7;
+    }
+
+    public void setHasMovedBlackY0(boolean hasMovedBlackY0) {
+        this.hasMovedBlackY0 = hasMovedBlackY0;
+    }
+
+    public void setHasMovedWhiteY7(boolean hasMovedWhiteY7) {
+        this.hasMovedWhiteY7 = hasMovedWhiteY7;
+    }
+
+    public void setHasMovedWhiteY0(boolean hasMovedWhiteY0) {
+        this.hasMovedWhiteY0 = hasMovedWhiteY0;
+    }
+
+    public boolean isHasMovedWhiteY0() {
+        return hasMovedWhiteY0;
+    }
+
+    public boolean isHasMovedWhiteY7() {
+        return hasMovedWhiteY7;
+    }
+
+    public boolean isHasMovedBlackY0() {
+        return hasMovedBlackY0;
+    }
+
+    public boolean isHasMovedBlackY7() {
+        return hasMovedBlackY7;
+    }
+
+    public boolean isHasMovedWhite() {
+        return hasMovedWhite;
+    }
+
+    public boolean isHasMovedBlack() {
+        return hasMovedBlack;
+    }
+
+    public  void setHasMovedBlack(boolean hasMovedBlack) {
+        this.hasMovedBlack = hasMovedBlack;
+    }
+
+    public  void setHasMovedWhite(boolean hasMovedWhite) {
+        this.hasMovedWhite = hasMovedWhite;
+    }
 
     public Figurine[][] getBoard() {
         return board;

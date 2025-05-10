@@ -102,7 +102,7 @@ public class GameValidator {
             if (movesInCharArray.length == 3) {
                 /// O-O
                 if (color.equals("w")) {
-                    if (!King.hasMovedWhite || !Rook.hasMovedWhiteY7) {
+                    if (!board.isHasMovedWhite() || !board.isHasMovedWhiteY7()) {
                         Figurine king = board.getSquare("e", 1);
                         Figurine rook = board.getSquare("h", 1);
                         if (king instanceof King && king.getColor().equals(color) &&
@@ -121,7 +121,7 @@ public class GameValidator {
                     }
                     return false;
                 } else if (color.equals("b")) {
-                    if (!King.hasMovedBlack || !Rook.hasMovedBlackY7) {
+                    if (!board.isHasMovedBlack() || !board.isHasMovedBlackY7()) {
                         Figurine king = board.getSquare("e", 8);
                         Figurine rook = board.getSquare("h", 8);
                         if (king instanceof King && king.getColor().equals(color) &&
@@ -144,7 +144,7 @@ public class GameValidator {
             else if (movesInCharArray.length == 5) {
                 /// O-O-O
                 if (color.equals("w")) {
-                    if (!King.hasMovedWhite || !Rook.hasMovedWhiteY7) {
+                    if (!board.isHasMovedWhite() || !board.isHasMovedWhiteY7()) {
                         Figurine king = board.getSquare("e", 1);
                         Figurine rook = board.getSquare("a", 1);
                         if (king instanceof King && king.getColor().equals(color) &&
@@ -163,7 +163,7 @@ public class GameValidator {
                     }
                     return false;
                 } else if (color.equals("b")) {
-                    if (!King.hasMovedBlack || !Rook.hasMovedBlackY7) {
+                    if (!board.isHasMovedBlack() || !board.isHasMovedBlackY7()) {
                         Figurine king = board.getSquare("e", 8);
                         Figurine rook = board.getSquare(0, 0);
                         if (king instanceof King && king.getColor().equals(color) &&

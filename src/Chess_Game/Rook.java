@@ -17,10 +17,7 @@ public class Rook extends Figurine {
     private static final int LEFT = 3;
 
     // Track if each rook has moved (for castling rules)
-    public static boolean hasMovedWhiteY0 = false;
-    public static boolean hasMovedWhiteY7 = false;
-    public static boolean hasMovedBlackY0 = false;
-    public static boolean hasMovedBlackY7 = false;
+
 
     /**
      * Helper method to check if a move is legal in a specific direction.
@@ -51,7 +48,7 @@ public class Rook extends Figurine {
                     if ((lastCheckX==-1&&lastCheckY==-1)||(lastCheckX == checkPosX && lastCheckY == -1) ||
                             (lastCheckX == -1 && lastCheckY == checkPosY)) {
                         move(board, checkPosX, checkPosY, positionFirst, positionSecond);
-                        updateRookMovedStatus(checkPosX, checkPosY);
+                        updateRookMovedStatus(checkPosX, checkPosY , board);
                         return true;
                     }
                     return false;
@@ -81,15 +78,15 @@ public class Rook extends Figurine {
             * @param x The x-coordinate of the moved rook
      * @param y The y-coordinate of the moved rook
      */
-    private void updateRookMovedStatus(int x, int y) {
+    private void updateRookMovedStatus(int x, int y, Board board) {
         if (x == 0 && y == 0) {
-            hasMovedBlackY0 = true;
+            board.setHasMovedBlackY0(true);
         } else if (x == 0 && y == 7) {
-            hasMovedBlackY7 = true;
+            board.setHasMovedBlackY7(true);
         } else if (x == 7 && y == 0) {
-            hasMovedWhiteY0 = true;
+            board.setHasMovedWhiteY0(true);
         } else if (x == 7 && y == 7) {
-            hasMovedWhiteY7 = true;
+            board.setHasMovedWhiteY7(true);
         }
     }
 
@@ -175,11 +172,11 @@ public class Rook extends Figurine {
      * @param position The position (0 for queenside, 7 for kingside)
      * @return True if the rook has moved
      */
-    public static boolean hasRookMoved(String color, int position) {
-        if (color.equals("w")) {
-            return position == 0 ? hasMovedWhiteY0 : hasMovedWhiteY7;
-        } else {
-            return position == 0 ? hasMovedBlackY0 : hasMovedBlackY7;
-        }
-    }
+//    public static boolean hasRookMoved(String color, int position) {
+//        if (color.equals("w")) {
+//            return position == 0 ? hasMovedWhiteY0 : hasMovedWhiteY7;
+//        } else {
+//            return position == 0 ? hasMovedBlackY0 : hasMovedBlackY7;
+//        }
+//    }
 }

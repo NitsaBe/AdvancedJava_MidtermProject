@@ -14,11 +14,11 @@ public class RookTest {
                 board.clearSquare(i, j);
             }
         }
-        // Reset static flags
-        Rook.hasMovedBlackY0 = false;
-        Rook.hasMovedBlackY7 = false;
-        Rook.hasMovedWhiteY0 = false;
-        Rook.hasMovedWhiteY7 = false;
+//        // Reset static flags
+//        Rook.hasMovedBlackY0 = false;
+//        Rook.hasMovedBlackY7 = false;
+//        Rook.hasMovedWhiteY0 = false;
+//        Rook.hasMovedWhiteY7 = false;
     }
 
     @Test
@@ -183,14 +183,14 @@ public class RookTest {
         Figurine.move(board, 7, 7, 6, 7);
 
         // Check if rook moved status is updated
-        assertTrue(Rook.hasMovedWhiteY7);
-        assertFalse(Rook.hasMovedWhiteY0);
-        assertFalse(Rook.hasMovedBlackY0);
-        assertFalse(Rook.hasMovedBlackY7);
+        assertTrue(board.isHasMovedWhiteY7());
+        assertFalse(board.isHasMovedWhiteY0());
+        assertFalse(board.isHasMovedBlackY0());
+        assertFalse(board.isHasMovedBlackY7());
 
         // Test hasRookMoved utility method
-        assertTrue(Rook.hasRookMoved("w", 7));
-        assertFalse(Rook.hasRookMoved("w", 0));
+//        assertTrue(Rook.hasRookMoved("w", 7));
+//        assertFalse(Rook.hasRookMoved("w", 0));
     }
 
     @Test

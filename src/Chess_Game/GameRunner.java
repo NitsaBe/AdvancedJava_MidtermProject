@@ -97,8 +97,8 @@ public class GameRunner {
             // Parse game
             List<List<List<String>>> parsedGame = StringReader.parseGameNotation(gameText);
 
-            // Reset static flags
-            resetGameFlags();
+//            // Reset static flags
+//            resetGameFlags();
 
             // Extract game metadata
             String event = getMetadataValue(parsedGame, "Event");
@@ -136,14 +136,14 @@ public class GameRunner {
     /**
      * Reset game flags between validations
      */
-    private void resetGameFlags() {
-        King.hasMovedBlack = false;
-        King.hasMovedWhite = false;
-        Rook.hasMovedBlackY7 = false;
-        Rook.hasMovedBlackY0 = false;
-        Rook.hasMovedWhiteY0 = false;
-        Rook.hasMovedWhiteY7 = false;
-    }
+//    private void resetGameFlags() {
+//        King.hasMovedBlack = false;
+//        King.hasMovedWhite = false;
+//        Rook.hasMovedBlackY7 = false;
+//        Rook.hasMovedBlackY0 = false;
+//        Rook.hasMovedWhiteY0 = false;
+//        Rook.hasMovedWhiteY7 = false;
+//    }
 
     /**
      * Extract metadata value from parsed game

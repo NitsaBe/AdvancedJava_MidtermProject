@@ -10,8 +10,7 @@ public class King  extends Figurine {
         this.color = color;
     }
     // Track if each king has moved (for castling rules)
-    public static boolean hasMovedWhite = false;
-    public static boolean hasMovedBlack = false;
+
     // Possible king moves in all 8 directions
     private static final int[][] KING_MOVES = {
             {-1, 0}, {-1, +1}, {0, +1}, {+1, +1},
@@ -49,9 +48,9 @@ public class King  extends Figurine {
 
                 // Update has moved status
                 if (color.equals("w")) {
-                    hasMovedWhite = true;
+                    board.setHasMovedWhite(true);
                 } else if (color.equals("b")) {
-                    hasMovedBlack = true;
+                    board.setHasMovedBlack(true);
                 } else {
                     return false;
                 }
@@ -84,7 +83,7 @@ public class King  extends Figurine {
      * @param color The color to check ("w" for white, "b" for black)
      * @return True if the king has moved, false otherwise
      */
-    public static boolean hasKingMoved(String color) {
-        return color.equals("w") ? hasMovedWhite : hasMovedBlack;
-    }
+//    public static boolean hasKingMoved(String color) {
+//        return color.equals("w") ? hasMovedWhite : hasMovedBlack;
+//    }
 }

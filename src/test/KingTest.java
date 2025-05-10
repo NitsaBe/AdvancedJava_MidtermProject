@@ -14,9 +14,7 @@ public class KingTest {
                 board.setSquare(i, j, null);
             }
         }
-        // Reset king movement tracking
-        King.hasMovedWhite = false;
-        King.hasMovedBlack = false;
+
     }
 
     @Test
@@ -40,7 +38,7 @@ public class KingTest {
         // Verify king moved and flagged as moved
         assertNull(board.getSquare(1, 4));
         assertTrue(board.getSquare(2, 4) instanceof King);
-        assertTrue(King.hasMovedBlack);
+        assertTrue(board.isHasMovedBlack());
     }
 
     @Test
@@ -122,19 +120,19 @@ public class KingTest {
         King whiteKing = new King("w");
         board.setSquare(7, 4, whiteKing);
 
-        assertFalse(King.hasKingMoved("w"));
+        assertFalse(board.isHasMovedWhite());
         assertTrue(whiteKing.isLegalMove(6, 4, board));
-        assertTrue(King.hasKingMoved("w"));
+        assertTrue(board.isHasMovedWhite());
 
-        // Reset and test black king tracking
-        King.hasMovedWhite = false;
-        King.hasMovedBlack = false;
+//        // Reset and test black king tracking
+//        King.hasMovedWhite = false;
+//        King.hasMovedBlack = false;
 
         King blackKing = new King("b");
         board.setSquare(0, 4, blackKing);
 
-        assertFalse(King.hasKingMoved("b"));
+        assertFalse(board.isHasMovedBlack());
         assertTrue(blackKing.isLegalMove(1, 4, board));
-        assertTrue(King.hasKingMoved("b"));
+        assertTrue(board.isHasMovedBlack());
     }
 }
