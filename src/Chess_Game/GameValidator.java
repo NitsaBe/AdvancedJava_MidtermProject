@@ -183,7 +183,7 @@ public class GameValidator {
             else if (movesInCharArray.length == 5) {
                 /// O-O-O
                 if (color.equals("w")) {
-                    if (!board.isHasMovedWhite() && !board.isHasMovedWhiteY7()) {
+                    if (!board.isHasMovedWhite() && !board.isHasMovedWhiteY0()) {
                         Figurine king = board.getSquare("e", 1);
                         Figurine rook = board.getSquare("a", 1);
                         if (king instanceof King && king.getColor().equals(color) &&
@@ -202,7 +202,7 @@ public class GameValidator {
                     }
                     return false;
                 } else if (color.equals("b")) {
-                    if (!board.isHasMovedBlack() && !board.isHasMovedBlackY7()) {
+                    if (!board.isHasMovedBlack() && !board.isHasMovedBlackY0()) {
                         Figurine king = board.getSquare("e", 8);
                         Figurine rook = board.getSquare(0, 0);
                         if (king instanceof King && king.getColor().equals(color) &&
