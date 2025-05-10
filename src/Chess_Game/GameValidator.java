@@ -303,8 +303,8 @@ public class GameValidator {
             char movePiece = movesInCharArray[0];
             int fromPosX = -1;
             int fromPosY = -1;
-            int targetX = -1;
-            int targetY = -1;
+            int targetX;
+            int targetY;
 
             // Extract target position (always the last 2 chars before potential check symbols)
             targetY = letterToY(movesInCharArray[movesInCharArray.length - 2]);

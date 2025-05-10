@@ -105,13 +105,14 @@ public class Bishop extends Figurine {
 
     @Override
     public boolean isLegalCapture(int startingX, int startingY, int positionFirst, int positionSecond, Board board) {
-        if (startingX == -1 && startingY == -1) {
-            return isLegalCapture(positionFirst, positionSecond, board);
-        }
+
         if (board.isSquareEmpty(positionFirst, positionSecond) ||
                 board.getSquare(positionFirst, positionSecond).color.equals(color)) {
             System.out.println("Error: Invalid bishop capture - target empty or same color");
             return false;
+        }
+        if (startingX == -1 && startingY == -1) {
+            return isLegalCapture(positionFirst, positionSecond, board);
         }
         board.setSquare(positionFirst, positionSecond, null);
         return isLegalMove(startingX, startingY, positionFirst, positionSecond, board);

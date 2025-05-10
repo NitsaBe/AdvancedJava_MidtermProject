@@ -6,8 +6,8 @@ public class Knight extends Figurine {
      * Possible knight moves as coordinate offsets (row, column)
      */
     private static final int[][] KNIGHT_MOVES = {
-            {-2, +1}, {-1, +2}, {+1, +2}, {+2, +1},
-            {+2, -1}, {+1, -2}, {-1, -2}, {-2, -1}
+            {-2, +1}  , {-1, +2}, {+1, +2}, {+2, +1},  // 2up 1right  , 1up 2 right , 1down 2 right , 2 down 1right
+            {+2, -1}, {+1, -2}, {-1, -2}, {-2, -1}     // 2 down 1 left , 1 down 2 left  , 1up 2 left , 2up 1 left
     };
 
     /**
@@ -77,13 +77,17 @@ public class Knight extends Figurine {
         if (startingY == -1) {
             // Rank disambiguation
             directionsToCheck = (startingX > targetX)
-                    ? new int[]{2, 3, 4, 5}  // Knight moving down
-                    : new int[]{0, 1, 6, 7}; // Knight moving up
+                    ?
+                    (startingX-targetX == 1 ? new int[]{2, 5} : new int[]{ 3, 4 } )// Knight moving down
+                    :
+                    (targetX-startingX == 1 ? new int[]{ 1, 6}   : new int[]{ 0, 7}   ); // Knight moving up
         } else if (startingX == -1) {
             // File disambiguation
             directionsToCheck = (startingY > targetY)
-                    ? new int[]{0, 1, 2, 3}  // Knight moving right
-                    : new int[]{4, 5, 6, 7}; // Knight moving left
+                    ?
+                    (startingY-targetY==1 ?   new int[]{0,3}  : new int[]{ 1, 2}  )// Knight moving right
+                    :
+                    (targetY-startingY==1 ?  new int[]{4,  7}  : new int[]{5, 6}  ) ; // Knight moving left
         } else {
             return false; // Both rank and file specified is not handled
         }
