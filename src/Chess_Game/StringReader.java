@@ -28,7 +28,8 @@ public class StringReader {
     // Regular expressions for parsing PGN files
     private static final Pattern TAG_PATTERN = Pattern.compile("\\[(\\w+)\\s+\"([^\"]*)\"\\]");
     private static final Pattern MOVE_TEXT_PATTERN = Pattern.compile(
-            "([KQRBN]?[a-h]?[1-8]?x?[a-h][1-8](?:=[QRBN])?|O-O|O-O-O)(?:[+#])?");
+            "([KQRBN]?[a-h]?[1-8]?x?[a-h][1-8](?:=[QRBN])?|O-O-O|O-O)(?:[+#])?");
+
     private static final Pattern MOVE_NUMBER_PATTERN = Pattern.compile("(\\d+)\\.+\\s*");
     private static final Pattern RESULT_PATTERN = Pattern.compile("(1-0|0-1|1/2-1/2|\\*)");
 

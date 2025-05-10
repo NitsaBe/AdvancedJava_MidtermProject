@@ -34,14 +34,16 @@ public class GameValidator {
             Pattern.compile("^(O-O|O-O-O)$");
 
 
+    private static final Pattern PROMOTION_MOVE_OR_CAPTURE =
+            Pattern.compile("^([a-h])([1-8])=([QRNB])$"+ "|"+ "^([a-h]x)?([a-h])([18])=([QRNB])$"  );
+
     public static String validateGameMoves(List<List<String>> gameData,Board board) {
         for (List<String> movePair : gameData) {
 
             String whiteMove = movePair.get(0);
             if (!isValidMove(whiteMove,"w",board)) {
                 return "Invalid white move "+(gameData.indexOf(movePair)+1)+": " +  whiteMove ;
-//                System.err.println("Invalid white move "+(gameData.indexOf(movePair)+1)+": " +  whiteMove);
-//                return false;
+
             }
             if (movePair==gameData.getLast()){
                 if (movePair.get(1)==null){
@@ -53,8 +55,7 @@ public class GameValidator {
                 String blackMove = movePair.get(1);
                 if (!isValidMove(blackMove,"b",board)) {
                     return "Invalid black move "+(gameData.indexOf(movePair)+1)+": " + blackMove;
-//                    System.err.println("Invalid black move "+(gameData.indexOf(movePair)+1)+": " + blackMove);
-//                    return false;
+
                 }
             }
         }
@@ -96,13 +97,51 @@ public class GameValidator {
 
         char[] movesInCharArray = move.toCharArray();
 
+        if (PROMOTION_MOVE_OR_CAPTURE.matcher(move).matches()) {
+
+            int startingY =  letterToY(movesInCharArray[0]);
+            int checkY = letterToY(movesInCharArray[0]);
+            int checkX = numberToX(movesInCharArray[1]);
+            char movePiece =0;
+            Pawn pawn = new Pawn(color);
+            boolean answer=false;
+
+            if (movesInCharArray.length==4){                            //  e8=Q
+                movePiece = movesInCharArray[3];
+                answer = pawn.isLegalMove(checkX, checkY, board);
+            }
+            else if (movesInCharArray.length==6){                       //  dxe8=Q
+                startingY = letterToY(movesInCharArray[0]);
+                checkY = letterToY(movesInCharArray[2]);
+                checkX = numberToX(movesInCharArray[3]);
+                movePiece = movesInCharArray[5];
+                answer =  pawn.isLegalCapture(-1, startingY, checkX, checkY, board);
+            }
+
+            if (!answer) return false;
 
 
-        if (CASTLE_PATTERN.matcher(move).matches()) {
+            // Create piece based on move character
+            Figurine figurine = switch (movePiece) {
+                case 'K' -> new King(color);
+                case 'Q' -> new Queen(color);
+                case 'R' -> new Rook(color);
+                case 'B' -> new Bishop(color);
+                case 'N' -> new Knight(color);
+                default -> null;
+            };
+
+            board.setSquare(checkX,checkY,figurine);
+            return true;
+
+        }
+
+
+        else if (CASTLE_PATTERN.matcher(move).matches()) {
             if (movesInCharArray.length == 3) {
                 /// O-O
                 if (color.equals("w")) {
-                    if (!board.isHasMovedWhite() || !board.isHasMovedWhiteY7()) {
+                    if (!board.isHasMovedWhite() && !board.isHasMovedWhiteY7()) {
                         Figurine king = board.getSquare("e", 1);
                         Figurine rook = board.getSquare("h", 1);
                         if (king instanceof King && king.getColor().equals(color) &&
@@ -121,7 +160,7 @@ public class GameValidator {
                     }
                     return false;
                 } else if (color.equals("b")) {
-                    if (!board.isHasMovedBlack() || !board.isHasMovedBlackY7()) {
+                    if (!board.isHasMovedBlack() && !board.isHasMovedBlackY7()) {
                         Figurine king = board.getSquare("e", 8);
                         Figurine rook = board.getSquare("h", 8);
                         if (king instanceof King && king.getColor().equals(color) &&
@@ -144,7 +183,7 @@ public class GameValidator {
             else if (movesInCharArray.length == 5) {
                 /// O-O-O
                 if (color.equals("w")) {
-                    if (!board.isHasMovedWhite() || !board.isHasMovedWhiteY7()) {
+                    if (!board.isHasMovedWhite() && !board.isHasMovedWhiteY7()) {
                         Figurine king = board.getSquare("e", 1);
                         Figurine rook = board.getSquare("a", 1);
                         if (king instanceof King && king.getColor().equals(color) &&
@@ -163,7 +202,7 @@ public class GameValidator {
                     }
                     return false;
                 } else if (color.equals("b")) {
-                    if (!board.isHasMovedBlack() || !board.isHasMovedBlackY7()) {
+                    if (!board.isHasMovedBlack() && !board.isHasMovedBlackY7()) {
                         Figurine king = board.getSquare("e", 8);
                         Figurine rook = board.getSquare(0, 0);
                         if (king instanceof King && king.getColor().equals(color) &&
