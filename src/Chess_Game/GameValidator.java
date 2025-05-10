@@ -34,13 +34,14 @@ public class GameValidator {
             Pattern.compile("^(O-O|O-O-O)$");
 
 
-    public static boolean validateGameMoves(List<List<String>> gameData,Board board) {
+    public static String validateGameMoves(List<List<String>> gameData,Board board) {
         for (List<String> movePair : gameData) {
 
             String whiteMove = movePair.get(0);
             if (!isValidMove(whiteMove,"w",board)) {
-                System.err.println("Invalid white move: " + whiteMove);
-                return false;
+                return "Invalid white move "+(gameData.indexOf(movePair)+1)+": " +  whiteMove ;
+//                System.err.println("Invalid white move "+(gameData.indexOf(movePair)+1)+": " +  whiteMove);
+//                return false;
             }
             if (movePair==gameData.getLast()){
                 if (movePair.get(1)==null){
@@ -51,12 +52,13 @@ public class GameValidator {
             if (movePair.size() > 1) {
                 String blackMove = movePair.get(1);
                 if (!isValidMove(blackMove,"b",board)) {
-                    System.err.println("Invalid black move: " + blackMove);
-                    return false;
+                    return "Invalid black move "+(gameData.indexOf(movePair)+1)+": " + blackMove;
+//                    System.err.println("Invalid black move "+(gameData.indexOf(movePair)+1)+": " + blackMove);
+//                    return false;
                 }
             }
         }
-        return true;
+        return "";
     }
 
 

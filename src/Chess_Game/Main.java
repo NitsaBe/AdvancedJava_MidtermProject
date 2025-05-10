@@ -17,7 +17,7 @@ import java.util.List;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        GameRunner g =new GameRunner("src/Tbilisi2015.pgn",1);
+        GameRunner g =new GameRunner("src/Tbilisi2015.pgn",12);
         g.startGame();
     }
     }

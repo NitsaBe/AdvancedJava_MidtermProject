@@ -110,16 +110,20 @@ public class GameRunner {
 
             // Create fresh board and validate moves
             Board board = new Board();
-            boolean isValid = GameValidator.validateGameMoves(movePairs, board);
+//            boolean isValid = GameValidator.validateGameMoves(movePairs, board);
+              String isValidText = GameValidator.validateGameMoves(movePairs, board);
+
 
             // Update counters and log result
-            if (isValid) {
+            if (isValidText.isEmpty()) {
                 LOGGER.info("Game #" + gameIndex + " - VALID: " + event + " - " + white + " vs " + black);
                 System.out.println("Game #" + gameIndex + " - VALID: " + event + " - " + white + " vs " + black);
                 successCount.incrementAndGet();
             } else {
-                LOGGER.warning("Game #" + gameIndex + " - INVALID: " + event + " - " + white + " vs " + black);
-                System.out.println("Game #" + gameIndex + " - INVALID: " + event + " - " + white + " vs " + black);
+                LOGGER.warning("Game #" + gameIndex + " - INVALID: " + event + " - " + white + " vs " + black
+                        +" :\n"+isValidText );
+                System.out.println("Game #" + gameIndex + " - INVALID: " + event + " - " + white + " vs " + black
+                        +" :\n"+isValidText );
                 errorCount.incrementAndGet();
             }
         } catch (Exception e) {

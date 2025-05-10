@@ -24,7 +24,7 @@ public class GameValidatorTest {
         // 3. Bc4 Bc5 (bishop development for both sides)
         moves.add(Arrays.asList("Bc4", "Bc5"));
 
-        boolean isValid = GameValidator.validateGameMoves(moves, board);
+        boolean isValid = GameValidator.validateGameMoves(moves, board).isEmpty();
         assertTrue(isValid);
     }
 
@@ -40,7 +40,7 @@ public class GameValidatorTest {
 
         moves.add(Arrays.asList("Bc4", "Ba3"));
 
-        boolean isValid = GameValidator.validateGameMoves(moves, board);
+        boolean isValid =GameValidator.validateGameMoves(moves, board).isEmpty();
         assertTrue(isValid);
     }
 
@@ -64,7 +64,7 @@ public class GameValidatorTest {
         // 4. Be2 (Bishop blocks check)
         moves.add(Arrays.asList("Be2", null));
 
-        boolean isValid = GameValidator.validateGameMoves(moves, board);
+        boolean isValid = GameValidator.validateGameMoves(moves, board).isEmpty();
         assertTrue(isValid);
     }
 
@@ -81,7 +81,7 @@ public class GameValidatorTest {
         // 2. g4 Qh4#
         moves.add(Arrays.asList("g4", "Qh4#"));
 
-        boolean isValid = GameValidator.validateGameMoves(moves, board);
+        boolean isValid = GameValidator.validateGameMoves(moves, board).isEmpty();
         assertTrue(isValid);
     }
 
@@ -104,7 +104,7 @@ public class GameValidatorTest {
         // 4. Qxf7# (Queen takes f7 with checkmate)
         moves.add(Arrays.asList("Qxf7#", null));
 
-        boolean isValid = GameValidator.validateGameMoves(moves, board);
+        boolean isValid = GameValidator.validateGameMoves(moves, board).isEmpty();
         assertTrue(isValid);
     }
 
